@@ -1,0 +1,249 @@
+@import 'tailwindcss';
+
+:root {
+  --bg: #050508;
+  --surface: #0c0c14;
+  --surface2: #111120;
+  --white: #edebe6;
+  --muted: #6b6880;
+  --accent: #4dffa4;
+  --accent2: #ff4d6d;
+  --border: rgba(255, 255, 255, 0.06);
+  --border2: rgba(255, 255, 255, 0.12);
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+  #cursor-dot,
+  #cursor-ring {
+    display: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+#cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s;
+}
+
+#cursor-ring {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(77, 255, 164, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.2s,
+    height 0.2s,
+    border-radius 0.2s,
+    border-color 0.2s;
+}
+
+#cursor-ring.hovering {
+  width: 48px;
+  height: 24px;
+  border-radius: 4px;
+  border-color: var(--accent);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.section-pad {
+  padding: clamp(4rem, 10vh, 7rem) clamp(1.5rem, 4vw, 4rem);
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  margin-bottom: 3rem;
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-track {
+  animation: ticker 30s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes gradShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.grad-shift {
+  background-size: 200% 200%;
+  animation: gradShift 8s ease infinite;
+}
+
+@keyframes borderPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1px rgba(77, 255, 164, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(77, 255, 164, 0.15);
+  }
+}
+
+.border-pulse {
+  animation: borderPulse 3s ease-in-out infinite;
+}
+
+@keyframes ctaDrift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.cta-bg {
+  background: radial-gradient(
+      ellipse 80% 60% at 20% 40%,
+      rgba(77, 255, 164, 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 80% 60%,
+      rgba(255, 77, 109, 0.06),
+      transparent 55%
+    );
+  background-size: 200% 200%;
+  animation: ctaDrift 12s ease infinite;
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 20px rgba(77, 255, 164, 0.12);
+}
+
+.hero-line {
+  overflow: hidden;
+  display: block;
+}
+
+.hero-line span {
+  display: block;
+}
+
+.process-line {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field-input {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  padding: 0.85rem 1.1rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--white);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.field-input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(77, 255, 164, 0.08);
+}
+
+.ticker-item {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
