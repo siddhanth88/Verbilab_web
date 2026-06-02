@@ -7,7 +7,7 @@ export default function Footer() {
             VERBILAB <span className="text-[var(--accent)]">AI</span>
           </p>
           <p className="mt-3 text-sm text-[var(--muted)]">
-            Applied AI studio building products that solve real industry problems.
+            Transforming industries through intelligent AI solutions. Built for the real world.
           </p>
         </div>
 

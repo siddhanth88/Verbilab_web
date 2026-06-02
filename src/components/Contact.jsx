@@ -21,7 +21,7 @@ export default function Contact() {
       </h2>
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-        <div className="contact-reveal space-y-8">
+        <div className="contact-reveal grain-overlay rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 space-y-8">
           <p className="max-w-md text-[0.95rem] leading-relaxed text-[var(--muted)]">
             Tell us about your challenge. Our team will get back to you within 24 hours.
           </p>
@@ -45,7 +45,7 @@ export default function Contact() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="contact-reveal space-y-5">
+        <form onSubmit={handleSubmit} className="contact-reveal grain-overlay rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 space-y-5">
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field label="Full Name" name="name" required />
             <Field label="Company Name" name="company" required />

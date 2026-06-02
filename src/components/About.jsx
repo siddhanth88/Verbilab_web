@@ -7,33 +7,33 @@ import { useCountUp } from '../hooks/useCountUp'
 const ITEMS = [
   {
     num: '01',
-    title: 'Our Belief',
-    body: 'Every industry has problems that intelligence can solve. We exist to find them.',
+    title: 'What We Do',
+    body: 'We are a multi-disciplinary AI solutions company designing and deploying intelligent products across BPO, BFSI, film, and compliance sectors. Strategy, engineering, and integration — all under one roof.',
   },
   {
     num: '02',
-    title: 'Our Approach',
-    body: 'Domain-first, not AI-first. We embed with experts before writing a line of code.',
+    title: 'How We Do It',
+    body: 'We embed with domain experts before writing a single line of code. Every product starts with a deep understanding of your workflows, edge cases, and outcomes — then we engineer AI that solves the actual problem.',
   },
   {
     num: '03',
-    title: 'Our Mission',
-    body: 'To make AI accessible, actionable, and impactful — one industry at a time.',
+    title: 'Who We Work With',
+    body: 'From contact centres managing thousands of agents to financial institutions navigating compliance — we partner with organisations where the stakes are high and AI can make a measurable difference.',
   },
   {
     num: '04',
-    title: 'Our Vision',
-    body: 'A world where every organisation can harness AI to operate smarter and faster.',
+    title: 'Our Mission',
+    body: 'To make AI accessible, actionable, and impactful — one industry at a time.',
   },
 ]
 
-function StatCard({ end, label }) {
+function StatCard({ end, label, staticValue }) {
   const { ref, value } = useCountUp(end)
 
   return (
-    <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8">
+    <div className="interactive-glow rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6">
       <p ref={ref} className="font-display text-[4rem] leading-none text-[var(--accent)]">
-        {value}
+        {staticValue || value}
       </p>
       <p className="mt-2 text-sm text-[var(--muted)]">{label}</p>
     </div>
@@ -56,6 +56,12 @@ export default function About() {
 
       <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-20">
         <div className="about-reveal space-y-0">
+          <p className="mb-10 max-w-[56ch] text-[0.95rem] leading-[1.85] text-[var(--muted)]">
+            Verbilab AI is a studio of applied AI — building purpose-driven products that
+            address real pain points across BPOs, financial services, media, and compliance.
+            Every solution we build is designed to integrate seamlessly and deliver results from
+            day one.
+          </p>
           {ITEMS.map((item, i) => {
             const isOpen = open === i
             return (
@@ -96,13 +102,18 @@ export default function About() {
         </div>
 
         <div className="about-reveal space-y-4 lg:sticky lg:top-28">
-          <StatCard end="10K+" label="Calls Audited Daily" />
-          <StatCard end="98%" label="Audit Accuracy Rate" />
-          <div className="border-pulse rounded-2xl bg-[var(--surface2)] p-8">
-            <p className="text-[1rem] leading-relaxed">
-              A studio of applied AI — building purpose-driven products that address real pain
-              points.
+          <div className="interactive-glow rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8">
+            <p className="mb-2 text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent)]">
+              Calls Audited Daily
             </p>
+            <p className="font-display text-[4rem] leading-none text-[var(--accent)]">10K+</p>
+            <p className="mt-2 text-sm text-[var(--muted)]">Across active deployments</p>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <StatCard end="98%" label="Audit Accuracy Rate" />
+            <StatCard end="4+" label="Industries Served" />
+            <StatCard end="100%" label="Call Coverage vs 2–5% Manual" />
+            <StatCard staticValue="∞" end={0} label="Possibilities Ahead" />
           </div>
         </div>
       </div>

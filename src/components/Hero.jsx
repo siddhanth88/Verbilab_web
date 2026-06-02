@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import HeroCanvas from './HeroCanvas'
 
-const LINES = ['WE BUILD AI', 'THAT WORKS', 'WHERE IT MATTERS.']
+const LINES = ['WE BUILD AI', 'THAT WORKS WHERE', 'IT MATTERS MOST.']
 
 export default function Hero() {
   const sectionRef = useRef(null)
@@ -78,9 +78,9 @@ export default function Hero() {
 
         <div className="max-w-[340px] shrink-0 space-y-6">
           <p className="text-[0.95rem] leading-relaxed text-[var(--muted)]">
-            Verbilab builds production-grade AI for industries where quality,
-            compliance, and scale matter — from call centres to banking to
-            entertainment.
+            Verbilab AI is a next-generation AI solutions company. We engineer intelligent
+            products that automate, analyse, and augment how industries operate — turning complex
+            challenges into measurable outcomes.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
             <a
@@ -90,10 +90,10 @@ export default function Hero() {
               Book a Demo →
             </a>
             <a
-              href="#products"
+              href="#solutions"
               className="inline-flex items-center justify-center rounded-full border border-[var(--border2)] px-6 py-3 text-sm transition-colors hover:border-[var(--accent)]"
             >
-              Explore Products
+              Explore Our Solutions
             </a>
           </div>
         </div>

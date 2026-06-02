@@ -32,6 +32,13 @@ body {
   font-family: var(--font-body);
   overflow-x: hidden;
   cursor: none;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(77, 255, 164, 0.055), transparent 30%),
+    radial-gradient(circle at 80% 0%, rgba(77, 255, 164, 0.03), transparent 35%);
+}
+
+section {
+  scroll-margin-top: 7rem;
 }
 
 @media (max-width: 768px) {
@@ -99,23 +106,36 @@ body {
 }
 
 .section-pad {
-  padding: clamp(4rem, 10vh, 7rem) clamp(1.5rem, 4vw, 4rem);
+  padding: clamp(4.8rem, 11vh, 8rem) clamp(1.5rem, 4vw, 4rem);
 }
 
 .section-label {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
   color: var(--accent);
   margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.section-label::before {
+  content: '';
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(77, 255, 164, 0.5);
 }
 
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
   line-height: 0.95;
-  letter-spacing: 0.02em;
-  margin-bottom: 3rem;
+  letter-spacing: 0.005em;
+  margin-bottom: 2.7rem;
 }
 
 @keyframes ticker {
@@ -197,6 +217,34 @@ body {
   box-shadow: 0 0 20px rgba(77, 255, 164, 0.12);
 }
 
+.interactive-glow {
+  position: relative;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.interactive-glow:hover {
+  border-color: rgba(77, 255, 164, 0.36);
+  box-shadow:
+    0 0 0 1px rgba(77, 255, 164, 0.22) inset,
+    0 0 20px rgba(77, 255, 164, 0.14),
+    0 0 44px rgba(77, 255, 164, 0.1);
+}
+
+.neon-hover-text {
+  transition: text-shadow 0.25s ease, color 0.25s ease;
+}
+
+.interactive-glow:hover .neon-hover-text,
+.neon-hover-text:hover {
+  color: var(--white);
+  text-shadow:
+    0 0 8px rgba(77, 255, 164, 0.6),
+    0 0 18px rgba(77, 255, 164, 0.28);
+}
+
 .hero-line {
   overflow: hidden;
   display: block;
@@ -232,6 +280,25 @@ body {
       transparent 55%
     );
   pointer-events: none;
+}
+
+.hero-canvas-grain {
+  opacity: 0.08;
+  background-image: url('/noise.png');
+  background-size: 170px 170px;
+  mix-blend-mode: screen;
+}
+
+.grain-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url('/noise.png');
+  background-size: 180px 180px;
+  mix-blend-mode: screen;
 }
 
 .process-line {

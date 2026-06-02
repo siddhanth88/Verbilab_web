@@ -58,17 +58,17 @@ function ParticleNetwork({ motionRef }) {
     prevPointer.current = { x, y }
 
     const external = motionRef?.current?.speed ?? 0
-    boost.current += (pointerSpeed + external - boost.current) * 0.14
-    if (motionRef?.current) motionRef.current.speed *= 0.9
+    boost.current += (pointerSpeed + external - boost.current) * 0.11
+    if (motionRef?.current) motionRef.current.speed *= 0.93
 
-    const spin = 0.002 + boost.current * 0.045
+    const spin = 0.0018 + boost.current * 0.038
     groupRef.current.rotation.y += spin
-    groupRef.current.rotation.x += dy * 0.12 - groupRef.current.rotation.x * 0.06
-    groupRef.current.rotation.z += dx * 0.08 - groupRef.current.rotation.z * 0.06
+    groupRef.current.rotation.x += dy * 0.1 - groupRef.current.rotation.x * 0.045
+    groupRef.current.rotation.z += dx * 0.06 - groupRef.current.rotation.z * 0.045
 
-    const parallax = 1.1
-    target.current.x += (x * parallax - target.current.x) * 0.22
-    target.current.y += (y * parallax - target.current.y) * 0.22
+    const parallax = 1
+    target.current.x += (x * parallax - target.current.x) * 0.16
+    target.current.y += (y * parallax - target.current.y) * 0.16
     state.camera.position.x = target.current.x
     state.camera.position.y = target.current.y
     state.camera.lookAt(0, 0, 0)
@@ -114,6 +114,7 @@ export default function HeroCanvas({ motionRef }) {
   return (
     <div className="hero-canvas-wrap pointer-events-none absolute inset-0 z-0">
       <div className="hero-canvas-glow absolute inset-0" aria-hidden />
+      <div className="hero-canvas-grain absolute inset-0" aria-hidden />
       <Canvas
         className="!h-full !w-full"
         camera={{ position: [0, 0, 6], fov: 52 }}

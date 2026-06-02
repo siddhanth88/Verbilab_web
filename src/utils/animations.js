@@ -5,8 +5,8 @@ gsap.registerPlugin(ScrollTrigger)
 
 export function fadeUp(selector, options = {}) {
   const {
-    y = 40,
-    duration = 0.9,
+    y = 30,
+    duration = 0.95,
     delay = 0,
     stagger = 0,
     start = 'top 82%',
@@ -19,7 +19,7 @@ export function fadeUp(selector, options = {}) {
     duration,
     delay,
     stagger,
-    ease: 'power3.out',
+    ease: 'expo.out',
     scrollTrigger: {
       trigger: trigger || selector,
       start,
@@ -29,7 +29,7 @@ export function fadeUp(selector, options = {}) {
 }
 
 export function batchFadeUp(selector, options = {}) {
-  const { y = 30, stagger = 0.08, start = 'top 85%' } = options
+  const { y = 26, stagger = 0.09, start = 'top 86%' } = options
 
   ScrollTrigger.batch(selector, {
     start,
@@ -37,9 +37,9 @@ export function batchFadeUp(selector, options = {}) {
       gsap.from(batch, {
         opacity: 0,
         y,
-        duration: 0.8,
+        duration: 0.9,
         stagger,
-        ease: 'power3.out',
+        ease: 'expo.out',
         overwrite: true,
       })
     },
@@ -48,13 +48,13 @@ export function batchFadeUp(selector, options = {}) {
 }
 
 export function clipReveal(selector, options = {}) {
-  const { start = 'top 78%' } = options
+  const { start = 'top 80%' } = options
 
   return gsap.utils.toArray(selector).map((el) =>
     gsap.from(el, {
       clipPath: 'inset(100% 0 0 0)',
-      duration: 1.1,
-      ease: 'power4.out',
+      duration: 1.15,
+      ease: 'expo.out',
       scrollTrigger: {
         trigger: el,
         start,

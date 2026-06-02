@@ -46,8 +46,8 @@ export default function Nav() {
             : 'border-b border-transparent bg-transparent'
         }`}
       >
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-[clamp(1.5rem,4vw,4rem)] py-5">
-          <a href="#home" className="font-display text-2xl tracking-wide">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-[clamp(1.5rem,4vw,4rem)] py-4">
+          <a href="#home" className="font-display text-[1.7rem] tracking-[0.04em]">
             VERBILAB <span className="text-[var(--accent)]">AI</span>
           </a>
 
@@ -56,7 +56,7 @@ export default function Nav() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-[0.75rem] uppercase tracking-[0.2em] text-[var(--muted)] transition-colors hover:text-[var(--white)]"
+                className="text-[0.68rem] uppercase tracking-[0.18em] text-[var(--muted)] transition-colors hover:text-[var(--white)]"
               >
                 {link.label}
               </a>
@@ -65,7 +65,7 @@ export default function Nav() {
 
           <a
             href="#contact"
-            className="hidden rounded-full border border-[var(--accent)] px-5 py-2 text-sm text-[var(--white)] transition-colors hover:bg-[var(--accent)] hover:text-[#050508] md:inline-block"
+            className="hidden rounded-full border border-[var(--accent)] px-5 py-2 text-[0.82rem] text-[var(--white)] transition-colors hover:bg-[var(--accent)] hover:text-[#050508] md:inline-block"
           >
             Get a Demo →
           </a>

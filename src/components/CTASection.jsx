@@ -33,6 +33,10 @@ export default function CTASection() {
             </span>
           ))}
         </h2>
+        <p className="mx-auto mt-6 max-w-[52ch] text-[0.98rem] leading-[1.8] text-[var(--muted)]">
+          Whether you are looking to solve a specific operational challenge or explore how AI can
+          transform your entire business, Verbilab AI is ready to partner with you.
+        </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
@@ -48,6 +52,12 @@ export default function CTASection() {
             Explore Our Products
           </a>
         </div>
+        <p className="mt-8 text-sm text-[var(--muted)]">
+          Or write to us at{' '}
+          <a href="mailto:hello@verbilab.ai" className="text-[var(--accent)]">
+            hello@verbilab.ai
+          </a>
+        </p>
       </div>
     </section>
   )
