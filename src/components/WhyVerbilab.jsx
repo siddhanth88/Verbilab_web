@@ -1,30 +1,31 @@
 import { useEffect, useRef } from 'react'
 import { batchFadeUp, fadeUp } from '../utils/animations'
+import SectionAccent3D from './SectionAccent3D'
 
 const CARDS = [
   {
     title: 'Domain-First Thinking',
-    body: "We don't start with AI. We start with your problem. Our solutions are built by people who understand your industry, not just machine learning.",
+    body: "We start with your business problem, not with a model.",
   },
   {
     title: 'Production-Grade AI',
-    body: 'No prototypes, no pilots that never ship. Our products are built to run at enterprise scale from the moment you go live.',
+    body: 'Built to run at enterprise scale from day one.',
   },
   {
     title: 'Speed to Value',
-    body: 'Our modular architecture means you see results fast. Most clients are up and running within weeks, not months.',
+    body: 'Most teams go live in weeks, not months.',
   },
   {
     title: 'Growing Ecosystem',
-    body: 'Every product we launch is designed to work alongside the others. As our portfolio grows, so does the intelligence available to you.',
+    body: 'Each new product compounds intelligence across the stack.',
   },
   {
     title: 'Transparent & Explainable AI',
-    body: 'We believe AI should be auditable and explainable. Our systems surface the why behind every decision — not just the what.',
+    body: 'Clear audit trails and explainable decisioning by design.',
   },
   {
     title: 'Partner, Not Vendor',
-    body: 'We work alongside you to define success, configure solutions, and iterate continuously. Your outcomes are our outcomes.',
+    body: 'We iterate with your team until outcomes are delivered.',
   },
 ]
 
@@ -37,7 +38,8 @@ export default function WhyVerbilab() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="section-pad">
+    <section ref={sectionRef} className="section-pad relative overflow-hidden">
+      <SectionAccent3D className="why-accent" color="#6f8bff" />
       <p className="section-label why-head">◆ WHY US</p>
       <h2 className="section-title why-head max-w-[12ch]">The Verbilab Difference.</h2>
 

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { fadeUp } from '../utils/animations'
 import { useMouseTilt } from '../hooks/useMouseTilt'
+import SectionAccent3D from './SectionAccent3D'
 
 function BentoCell({ className = '', children }) {
   const tilt = useMouseTilt()
@@ -19,10 +20,9 @@ function BentoCell({ className = '', children }) {
 
 const FEATURES = [
   'Transcribes 100% of customer calls with high accuracy',
-  'Scores calls against custom compliance and quality frameworks',
-  'Detects tone, sentiment, and conversation patterns',
-  'Flags violations, script deviations, and escalation triggers instantly',
-  'Generates audit reports with coaching recommendations',
+  'Scores calls against quality and compliance frameworks',
+  'Detects sentiment and escalation patterns',
+  'Flags violations and script deviations instantly',
   'Integrates with leading CRM and telephony platforms',
 ]
 
@@ -31,22 +31,24 @@ export default function Products() {
 
   useEffect(() => {
     fadeUp('.products-reveal', { trigger: sectionRef.current })
+    fadeUp('.flow-copy', { trigger: sectionRef.current, y: 22, start: 'top 70%' })
   }, [])
 
   return (
-    <section id="products" ref={sectionRef} className="section-pad">
+    <section id="products" ref={sectionRef} className="section-pad relative overflow-hidden">
+      <SectionAccent3D className="products-accent" />
       <p className="section-label products-reveal">◆ PRODUCT SUITE</p>
       <div className="mb-10 flex flex-wrap items-end justify-between gap-8">
-        <h2 className="section-title products-reveal !mb-0">Intelligent Products. Real Outcomes.</h2>
-        <p className="products-reveal max-w-[46ch] text-[0.95rem] leading-[1.8] text-[var(--muted)]">
-          Each Verbilab AI product is a standalone intelligent system built for a specific
-          industry challenge. Together they form an expanding ecosystem of AI that serves
-          businesses at every stage of their journey.
+        <h2 className="section-title products-reveal !mb-0 max-w-[14ch]">
+          Intelligent Products. Real Outcomes.
+        </h2>
+        <p className="products-reveal flow-copy max-w-[42ch] text-[0.94rem] leading-[1.78] text-[var(--muted)]">
+          Purpose-built AI products for high-stakes operations. Scroll to reveal each system.
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
-        <BentoCell className="products-reveal min-h-[30rem] md:col-span-7">
+        <BentoCell className="products-reveal min-h-[28rem] md:col-span-7">
           <div
             className="grad-shift pointer-events-none absolute inset-0 opacity-40"
             style={{
@@ -64,10 +66,9 @@ export default function Products() {
             <p className="mt-2 text-[0.9rem] text-[var(--muted)]">
               AI-Powered Call Quality Intelligence
             </p>
-            <p className="mt-4 max-w-xl text-[0.9rem] leading-relaxed text-[var(--muted)]">
-              Manual call auditing is slow, inconsistent, and expensive. Verbilab Call Audit
-              eliminates all three — delivering full coverage, consistent scoring, and instant
-              compliance flags at enterprise scale.
+            <p className="mt-4 max-w-xl text-[0.88rem] leading-relaxed text-[var(--muted)]">
+              End-to-end call intelligence at enterprise scale: listen, score, detect risk, and
+              coach faster.
             </p>
             <ul className="mt-6 space-y-2.5">
               {FEATURES.map((f) => (
@@ -94,7 +95,7 @@ export default function Products() {
           </div>
         </BentoCell>
 
-        <BentoCell className="products-reveal min-h-[30rem] md:col-span-5">
+        <BentoCell className="products-reveal min-h-[28rem] md:col-span-5">
           <span className="rounded-full border border-[rgba(77,255,164,0.2)] bg-[rgba(77,255,164,0.1)] px-3 py-1 text-[0.65rem] uppercase tracking-[0.08em] text-[var(--accent)]">
             Call Audit AI
           </span>
@@ -104,9 +105,8 @@ export default function Products() {
           <h3 className="neon-hover-text relative z-[2] mt-6 pr-20 font-display text-[clamp(1.5rem,2.7vw,1.9rem)] leading-tight">
             Full Coverage
           </h3>
-          <p className="relative z-[2] mt-3 max-w-[36ch] text-[0.88rem] leading-relaxed text-[var(--muted)]">
-            Traditional QA teams audit 2–5% of calls. Verbilab audits every single one — and
-            does it in seconds.
+          <p className="relative z-[2] mt-3 max-w-[34ch] text-[0.86rem] leading-relaxed text-[var(--muted)]">
+            Traditional QA checks 2–5% of calls. Verbilab audits every call in seconds.
           </p>
           <div className="relative z-[2] mt-6 flex flex-wrap gap-2">
             {['BPO', 'BFSI', 'Insurance', 'Telecoms'].map((tag) => (

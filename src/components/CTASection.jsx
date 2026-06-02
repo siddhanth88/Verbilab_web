@@ -25,34 +25,34 @@ export default function CTASection() {
         style={{ backgroundImage: "url('/noise.png')" }}
       />
 
-      <div className="relative z-[1] mx-auto max-w-5xl">
-        <h2 className="font-display text-[clamp(3.5rem,8vw,9rem)] leading-[0.92]">
+      <div className="relative z-[1] mx-auto max-w-[1100px]">
+        <h2 className="mx-auto max-w-[10ch] font-display text-[clamp(2.8rem,7vw,7.4rem)] leading-[0.92] tracking-[0.005em]">
           {LINES.map((line) => (
             <span key={line} className="cta-line block overflow-hidden">
               <span className="block">{line}</span>
             </span>
           ))}
         </h2>
-        <p className="mx-auto mt-6 max-w-[52ch] text-[0.98rem] leading-[1.8] text-[var(--muted)]">
+        <p className="mx-auto mt-7 max-w-[54ch] text-[0.95rem] leading-[1.8] text-[var(--muted)]">
           Whether you are looking to solve a specific operational challenge or explore how AI can
           transform your entire business, Verbilab AI is ready to partner with you.
         </p>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a
             href="#contact"
-            className="rounded-full bg-[var(--accent)] px-8 py-3 text-sm font-medium text-[#050508] transition-opacity hover:opacity-85"
+            className="rounded-full bg-[var(--accent)] px-7 py-2.5 text-sm font-medium text-[#04131a] transition-opacity hover:opacity-85"
           >
             Book a Free Discovery Call
           </a>
           <a
             href="#products"
-            className="rounded-full border border-[var(--border2)] px-8 py-3 text-sm transition-colors hover:border-[var(--accent)]"
+            className="rounded-full border border-[var(--border2)] px-7 py-2.5 text-sm transition-colors hover:border-[var(--accent)]"
           >
             Explore Our Products
           </a>
         </div>
-        <p className="mt-8 text-sm text-[var(--muted)]">
+        <p className="mt-5 text-sm text-[var(--muted)]">
           Or write to us at{' '}
           <a href="mailto:hello@verbilab.ai" className="text-[var(--accent)]">
             hello@verbilab.ai

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Mail, Share2, MessageCircle, PlayCircle } from 'lucide-react'
 import { fadeUp } from '../utils/animations'
+import SectionAccent3D from './SectionAccent3D'
 
 export default function Contact() {
   const sectionRef = useRef(null)
@@ -20,8 +21,8 @@ export default function Contact() {
         Ready to Transform How You Work?
       </h2>
 
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-        <div className="contact-reveal grain-overlay rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 space-y-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
+        <div className="contact-reveal grain-overlay relative rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 space-y-7">
           <p className="max-w-md text-[0.95rem] leading-relaxed text-[var(--muted)]">
             Tell us about your challenge. Our team will get back to you within 24 hours.
           </p>
@@ -43,6 +44,12 @@ export default function Contact() {
               <PlayCircle size={16} /> YouTube
             </a>
           </div>
+          <ul className="space-y-2 text-[0.85rem] text-[var(--muted)]">
+            <li>• Fast onboarding for BPO, BFSI, and enterprise operations.</li>
+            <li>• Implementation support from discovery to deployment.</li>
+            <li>• Dedicated review within 24 hours after form submission.</li>
+          </ul>
+          <SectionAccent3D className="contact-accent" color="#63d5ff" />
         </div>
 
         <form onSubmit={handleSubmit} className="contact-reveal grain-overlay rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 space-y-5">

@@ -1,11 +1,15 @@
+import logoTransparent from '../assets/verbilab.logo2.png'
+
 export default function Footer() {
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--bg)] px-[clamp(1.5rem,4vw,4rem)] py-16">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-display text-3xl">
-            VERBILAB <span className="text-[var(--accent)]">AI</span>
-          </p>
+          <img
+            src={logoTransparent}
+            alt="Verbilab AI"
+            className="h-12 w-auto object-contain"
+          />
           <p className="mt-3 text-sm text-[var(--muted)]">
             Transforming industries through intelligent AI solutions. Built for the real world.
           </p>

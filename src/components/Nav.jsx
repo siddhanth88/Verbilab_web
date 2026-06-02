@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
+import logoTransparent from '../assets/verbilab.logo2.png'
 
 const LINKS = [
   { label: 'Home', href: '#home' },
@@ -47,8 +48,12 @@ export default function Nav() {
         }`}
       >
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-[clamp(1.5rem,4vw,4rem)] py-4">
-          <a href="#home" className="font-display text-[1.7rem] tracking-[0.04em]">
-            VERBILAB <span className="text-[var(--accent)]">AI</span>
+          <a href="#home" className="inline-flex items-center">
+            <img
+              src={logoTransparent}
+              alt="Verbilab AI"
+              className="h-9 w-auto object-contain md:h-10"
+            />
           </a>
 
           <nav className="hidden items-center gap-8 md:flex">
@@ -100,6 +105,11 @@ export default function Nav() {
               </button>
             </div>
             <nav className="flex flex-col gap-8">
+              <img
+                src={logoTransparent}
+                alt="Verbilab AI"
+                className="mb-4 h-10 w-auto object-contain"
+              />
               {LINKS.map((link, i) => (
                 <motion.a
                   key={link.href}

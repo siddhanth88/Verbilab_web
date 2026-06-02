@@ -2,12 +2,12 @@
 
 :root {
   --bg: #050508;
-  --surface: #0c0c14;
-  --surface2: #111120;
+  --surface: #0b0f1c;
+  --surface2: #111728;
   --white: #edebe6;
-  --muted: #6b6880;
-  --accent: #4dffa4;
-  --accent2: #ff4d6d;
+  --muted: #8f97b0;
+  --accent: #64cfee;
+  --accent2: #cbef4f;
   --border: rgba(255, 255, 255, 0.06);
   --border2: rgba(255, 255, 255, 0.12);
 
@@ -33,8 +33,8 @@ body {
   overflow-x: hidden;
   cursor: none;
   background-image:
-    radial-gradient(circle at 20% 10%, rgba(77, 255, 164, 0.055), transparent 30%),
-    radial-gradient(circle at 80% 0%, rgba(77, 255, 164, 0.03), transparent 35%);
+    radial-gradient(circle at 20% 10%, rgba(100, 207, 238, 0.08), transparent 30%),
+    radial-gradient(circle at 80% 0%, rgba(203, 239, 79, 0.05), transparent 35%);
 }
 
 section {
@@ -132,7 +132,7 @@ section {
 
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+  font-size: clamp(2.2rem, 5vw, 4.3rem);
   line-height: 0.95;
   letter-spacing: 0.005em;
   margin-bottom: 2.7rem;
@@ -257,26 +257,26 @@ section {
 .hero-title-glow {
   color: var(--white);
   text-shadow:
-    0 0 12px rgba(77, 255, 164, 0.55),
-    0 0 32px rgba(77, 255, 164, 0.35),
-    0 0 64px rgba(77, 255, 164, 0.18),
-    0 0 120px rgba(77, 255, 164, 0.08);
+    0 0 12px rgba(100, 207, 238, 0.42),
+    0 0 32px rgba(100, 207, 238, 0.28),
+    0 0 64px rgba(203, 239, 79, 0.16),
+    0 0 120px rgba(100, 207, 238, 0.08);
 }
 
 .hero-canvas-wrap canvas {
-  filter: drop-shadow(0 0 28px rgba(77, 255, 164, 0.35))
-    drop-shadow(0 0 60px rgba(77, 255, 164, 0.15));
+  filter: drop-shadow(0 0 28px rgba(100, 207, 238, 0.35))
+    drop-shadow(0 0 60px rgba(203, 239, 79, 0.12));
 }
 
 .hero-canvas-glow {
   background: radial-gradient(
       ellipse 90% 70% at 55% 45%,
-      rgba(77, 255, 164, 0.12),
+      rgba(100, 207, 238, 0.13),
       transparent 65%
     ),
     radial-gradient(
       ellipse 60% 50% at 30% 60%,
-      rgba(77, 255, 164, 0.06),
+      rgba(203, 239, 79, 0.07),
       transparent 55%
     );
   pointer-events: none;
@@ -341,4 +341,48 @@ section {
   font-size: 0.85rem;
   letter-spacing: 0.12em;
   color: var(--muted);
+}
+
+.section-accent-3d {
+  position: absolute;
+  right: clamp(1rem, 3vw, 2.5rem);
+  top: 3.2rem;
+  width: clamp(170px, 22vw, 290px);
+  height: clamp(120px, 18vw, 180px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.95;
+}
+
+.section-accent-glow {
+  position: absolute;
+  inset: 0;
+  filter: blur(10px);
+  opacity: 0.75;
+}
+
+.products-accent,
+.industries-accent,
+.why-accent {
+  top: 1.8rem;
+}
+
+.contact-accent {
+  position: absolute;
+  width: 220px;
+  height: 150px;
+  right: 0.8rem;
+  bottom: 0.2rem;
+  opacity: 0.8;
+}
+
+@media (max-width: 900px) {
+  .section-accent-3d {
+    width: 140px;
+    height: 100px;
+    opacity: 0.65;
+  }
+  .contact-accent {
+    display: none;
+  }
 }
