@@ -2,21 +2,24 @@ import { Suspense, useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const COUNT = 200
-const CONNECT_DIST = 1.5
+const COUNT = 260
+const CONNECT_DIST = 1.55
+const NEON = '#4DFFA4'
 
-function ParticleNetwork() {
+function ParticleNetwork({ motionRef }) {
   const groupRef = useRef()
   const target = useRef({ x: 0, y: 0 })
+  const prevPointer = useRef({ x: 0, y: 0 })
+  const boost = useRef(0)
 
   const { positions, linePositions } = useMemo(() => {
     const positions = new Float32Array(COUNT * 3)
     const pts = []
 
     for (let i = 0; i < COUNT; i++) {
-      const x = (Math.random() - 0.5) * 8
-      const y = (Math.random() - 0.5) * 5
-      const z = (Math.random() - 0.5) * 4
+      const x = (Math.random() - 0.5) * 11
+      const y = (Math.random() - 0.5) * 7
+      const z = (Math.random() - 0.5) * 5
       positions[i * 3] = x
       positions[i * 3 + 1] = y
       positions[i * 3 + 2] = z
@@ -27,7 +30,14 @@ function ParticleNetwork() {
     for (let i = 0; i < pts.length; i++) {
       for (let j = i + 1; j < pts.length; j++) {
         if (pts[i].distanceTo(pts[j]) < CONNECT_DIST) {
-          segments.push(pts[i].x, pts[i].y, pts[i].z, pts[j].x, pts[j].y, pts[j].z)
+          segments.push(
+            pts[i].x,
+            pts[i].y,
+            pts[i].z,
+            pts[j].x,
+            pts[j].y,
+            pts[j].z,
+          )
         }
       }
     }
@@ -40,11 +50,25 @@ function ParticleNetwork() {
 
   useFrame((state) => {
     if (!groupRef.current) return
-    groupRef.current.rotation.y += 0.0012
 
     const { x, y } = state.pointer
-    target.current.x += (x * 0.3 - target.current.x) * 0.05
-    target.current.y += (y * 0.3 - target.current.y) * 0.05
+    const dx = x - prevPointer.current.x
+    const dy = y - prevPointer.current.y
+    const pointerSpeed = Math.min(Math.hypot(dx, dy) * 12, 1.2)
+    prevPointer.current = { x, y }
+
+    const external = motionRef?.current?.speed ?? 0
+    boost.current += (pointerSpeed + external - boost.current) * 0.14
+    if (motionRef?.current) motionRef.current.speed *= 0.9
+
+    const spin = 0.002 + boost.current * 0.045
+    groupRef.current.rotation.y += spin
+    groupRef.current.rotation.x += dy * 0.12 - groupRef.current.rotation.x * 0.06
+    groupRef.current.rotation.z += dx * 0.08 - groupRef.current.rotation.z * 0.06
+
+    const parallax = 1.1
+    target.current.x += (x * parallax - target.current.x) * 0.22
+    target.current.y += (y * parallax - target.current.y) * 0.22
     state.camera.position.x = target.current.x
     state.camera.position.y = target.current.y
     state.camera.lookAt(0, 0, 0)
@@ -54,13 +78,17 @@ function ParticleNetwork() {
     <group ref={groupRef}>
       <points>
         <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            args={[positions, 3]}
-            count={COUNT}
-          />
+          <bufferAttribute attach="attributes-position" args={[positions, 3]} count={COUNT} />
         </bufferGeometry>
-        <pointsMaterial color="#4DFFA4" size={0.04} transparent opacity={0.6} />
+        <pointsMaterial
+          color={NEON}
+          size={0.07}
+          sizeAttenuation
+          transparent
+          opacity={0.9}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
       </points>
       <lineSegments>
         <bufferGeometry>
@@ -70,18 +98,30 @@ function ParticleNetwork() {
             count={linePositions.length / 3}
           />
         </bufferGeometry>
-        <lineBasicMaterial color="#4DFFA4" transparent opacity={0.25} />
+        <lineBasicMaterial
+          color={NEON}
+          transparent
+          opacity={0.45}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
       </lineSegments>
     </group>
   )
 }
 
-export default function HeroCanvas() {
+export default function HeroCanvas({ motionRef }) {
   return (
-    <div className="absolute inset-0 z-0 opacity-60">
-      <Canvas camera={{ position: [0, 0, 5], fov: 60 }} dpr={[1, 1.5]}>
+    <div className="hero-canvas-wrap pointer-events-none absolute inset-0 z-0">
+      <div className="hero-canvas-glow absolute inset-0" aria-hidden />
+      <Canvas
+        className="!h-full !w-full"
+        camera={{ position: [0, 0, 6], fov: 52 }}
+        dpr={[1, 2]}
+        gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+      >
         <Suspense fallback={null}>
-          <ParticleNetwork />
+          <ParticleNetwork motionRef={motionRef} />
         </Suspense>
       </Canvas>
     </div>

@@ -206,6 +206,34 @@ body {
   display: block;
 }
 
+.hero-title-glow {
+  color: var(--white);
+  text-shadow:
+    0 0 12px rgba(77, 255, 164, 0.55),
+    0 0 32px rgba(77, 255, 164, 0.35),
+    0 0 64px rgba(77, 255, 164, 0.18),
+    0 0 120px rgba(77, 255, 164, 0.08);
+}
+
+.hero-canvas-wrap canvas {
+  filter: drop-shadow(0 0 28px rgba(77, 255, 164, 0.35))
+    drop-shadow(0 0 60px rgba(77, 255, 164, 0.15));
+}
+
+.hero-canvas-glow {
+  background: radial-gradient(
+      ellipse 90% 70% at 55% 45%,
+      rgba(77, 255, 164, 0.12),
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 30% 60%,
+      rgba(77, 255, 164, 0.06),
+      transparent 55%
+    );
+  pointer-events: none;
+}
+
 .process-line {
   stroke-dasharray: 600;
   stroke-dashoffset: 600;
