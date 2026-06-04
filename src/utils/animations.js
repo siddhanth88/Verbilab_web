@@ -3,14 +3,52 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+/** Reveal once when scrolling into view — stays visible (no hide on small scroll). */
+const REVEAL_ONCE = {
+  start: 'top 88%',
+  toggleActions: 'play none none none',
+}
+
+export function scrollReveal(elements, options = {}) {
+  const defaults = {
+    y: 40,
+    opacity: 0,
+    duration: 0.85,
+    ease: 'power3.out',
+    stagger: 0.1,
+    trigger: null,
+    start: REVEAL_ONCE.start,
+    once: true,
+  }
+  const config = { ...defaults, ...options }
+  const target = elements?.length ? elements[0] : elements
+
+  return gsap.from(elements, {
+    y: config.y,
+    opacity: config.opacity,
+    duration: config.duration,
+    ease: config.ease,
+    stagger: config.stagger,
+    immediateRender: false,
+    scrollTrigger: {
+      trigger: config.trigger || target,
+      start: config.start,
+      toggleActions: config.toggleActions || REVEAL_ONCE.toggleActions,
+      once: config.once !== false,
+    },
+  })
+}
+
 export function fadeUp(selector, options = {}) {
   const {
-    y = 30,
-    duration = 0.95,
+    y = 24,
+    duration = 0.85,
     delay = 0,
     stagger = 0,
-    start = 'top 82%',
+    start = REVEAL_ONCE.start,
     trigger,
+    once = true,
+    toggleActions = REVEAL_ONCE.toggleActions,
   } = options
 
   return gsap.from(selector, {
@@ -19,17 +57,18 @@ export function fadeUp(selector, options = {}) {
     duration,
     delay,
     stagger,
-    ease: 'expo.out',
+    ease: 'power3.out',
     scrollTrigger: {
       trigger: trigger || selector,
       start,
-      toggleActions: 'play none none none',
+      toggleActions,
+      once,
     },
   })
 }
 
 export function batchFadeUp(selector, options = {}) {
-  const { y = 26, stagger = 0.09, start = 'top 86%' } = options
+  const { y = 24, stagger = 0.09, start = 'top 88%' } = options
 
   ScrollTrigger.batch(selector, {
     start,
@@ -37,9 +76,9 @@ export function batchFadeUp(selector, options = {}) {
       gsap.from(batch, {
         opacity: 0,
         y,
-        duration: 0.9,
+        duration: 0.85,
         stagger,
-        ease: 'expo.out',
+        ease: 'power3.out',
         overwrite: true,
       })
     },
@@ -48,17 +87,18 @@ export function batchFadeUp(selector, options = {}) {
 }
 
 export function clipReveal(selector, options = {}) {
-  const { start = 'top 80%' } = options
+  const { start = 'top 80%', trigger } = options
 
   return gsap.utils.toArray(selector).map((el) =>
     gsap.from(el, {
-      clipPath: 'inset(100% 0 0 0)',
-      duration: 1.15,
-      ease: 'expo.out',
+      y: '100%',
+      duration: 0.9,
+      ease: 'power3.out',
       scrollTrigger: {
-        trigger: el,
+        trigger: trigger || el.closest('.cta-section') || el,
         start,
-        toggleActions: 'play none none none',
+        toggleActions: REVEAL_ONCE.toggleActions,
+        once: true,
       },
     }),
   )

@@ -4,7 +4,7 @@ import * as THREE from 'three'
 
 const COUNT = 260
 const CONNECT_DIST = 1.55
-const NEON = '#4DFFA4'
+const NEON = '#00FF85'
 
 function ParticleNetwork({ motionRef }) {
   const groupRef = useRef()
@@ -112,7 +112,7 @@ function ParticleNetwork({ motionRef }) {
 
 export default function HeroCanvas({ motionRef }) {
   return (
-    <div className="hero-canvas-wrap pointer-events-none absolute inset-0 z-0">
+    <div className="hero-canvas-wrap absolute inset-0 z-0">
       <div className="hero-canvas-glow absolute inset-0" aria-hidden />
       <div className="hero-canvas-grain absolute inset-0" aria-hidden />
       <Canvas

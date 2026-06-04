@@ -1,19 +1,21 @@
 import { useEffect, useRef } from 'react'
-import { batchFadeUp, fadeUp } from '../utils/animations'
-import SectionAccent3D from './SectionAccent3D'
+import { fadeUp } from '../utils/animations'
+import { useMouseTilt } from '../hooks/useMouseTilt'
+import ScrollRevealCard from './ScrollRevealCard'
+import Industries3DAccent from './Industries3DAccent'
 
 const CELLS = [
   {
     icon: '🎧',
     badge: 'Active Solution Available',
-    badgeClass: 'text-[var(--accent)] border-[rgba(77,255,164,0.25)] bg-[rgba(77,255,164,0.08)]',
+    badgeClass: 'text-[var(--accent)] border-[var(--accent-glow)] bg-[var(--accent-dim)]',
     title: 'BPO & Contact Centres',
     body: 'Audit every call. Coach every agent. Ensure quality at scale without expanding your QA headcount.',
   },
   {
     icon: '🏦',
     badge: 'Active Solution Available',
-    badgeClass: 'text-[var(--accent)] border-[rgba(77,255,164,0.25)] bg-[rgba(77,255,164,0.08)]',
+    badgeClass: 'text-[var(--accent)] border-[var(--accent-glow)] bg-[var(--accent-dim)]',
     title: 'Banking & Financial Services',
     body: 'Ensure call compliance, detect mis-selling, and keep a complete audit trail.',
   },
@@ -34,54 +36,65 @@ const CELLS = [
   {
     icon: '🏢',
     badge: 'Exploring Partnerships',
-    badgeClass: 'text-[#7eb8ff] border-[rgba(126,184,255,0.25)] bg-[rgba(126,184,255,0.08)]',
+    badgeClass: 'text-[var(--muted)] border-[var(--border2)]',
     title: 'Enterprises & Large Organisations',
     body: 'For organisations operating at conversation and decision scale.',
   },
   {
     icon: '🚀',
     badge: "Let's Talk",
-    badgeClass: 'text-[var(--accent2)] border-[rgba(255,77,109,0.25)] bg-[rgba(255,77,109,0.08)]',
+    badgeClass: 'text-[var(--accent)] border-[var(--accent-glow)] bg-[var(--accent-dim)]',
     title: 'Startups & Scale-ups',
     body: 'AI-native operations from day one.',
   },
 ]
+
+function IndustryCell({ cell, index }) {
+  const tilt = useMouseTilt(6)
+
+  return (
+    <ScrollRevealCard delay={index * 0.06} direction={index % 2 === 0 ? 'left' : 'right'}>
+      <article
+        ref={tilt.ref}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={tilt.onMouseLeave}
+        className="industry-cell interactive-glow min-h-[15.5rem] break-words border-b border-[var(--border)] bg-[rgba(255,255,255,0.01)] p-8 transition-colors duration-300 last:border-b-0 hover:bg-[var(--surface)] md:border-b-0 md:border-r md:last:border-r-0 [&:nth-child(-n+3)]:md:border-b"
+      >
+        <div className="mb-4 text-[2rem]">{cell.icon}</div>
+        <span
+          className={`mb-4 inline-block rounded-sm border px-3 py-1 text-[0.62rem] uppercase tracking-[0.12em] ${cell.badgeClass}`}
+        >
+          {cell.badge}
+        </span>
+        <h3 className="subheading neon-hover-text mb-2">{cell.title}</h3>
+        <p className="body-text">{cell.body}</p>
+      </article>
+    </ScrollRevealCard>
+  )
+}
 
 export default function Industries() {
   const sectionRef = useRef(null)
 
   useEffect(() => {
     fadeUp('.industries-head', { trigger: sectionRef.current })
-    fadeUp('.flow-copy', { trigger: sectionRef.current, y: 20, start: 'top 70%' })
-    batchFadeUp('.industry-cell', { stagger: 0.08 })
+
   }, [])
 
   return (
     <section id="industries" ref={sectionRef} className="section-pad relative overflow-hidden">
-      <SectionAccent3D className="industries-accent" color="#66c7ff" />
-      <p className="section-label industries-head">◆ INDUSTRIES</p>
+      <Industries3DAccent />
+      <p className="section-label industries-head">INDUSTRIES</p>
       <h2 className="section-title industries-head max-w-[14ch]">
         Built for the Industries That Move the World.
       </h2>
-      <p className="industries-head flow-copy mb-10 max-w-[52ch] text-[0.94rem] leading-[1.78] text-[var(--muted)]">
+      <p className="industries-head section-intro mb-10">
         Built for teams where quality, compliance, and speed are mission-critical.
       </p>
 
-      <div className="grid grid-cols-1 border border-[var(--border)] md:grid-cols-3">
-        {CELLS.map((cell) => (
-          <article
-            key={cell.title}
-            className="industry-cell interactive-glow min-h-[15.5rem] break-words border-b border-[var(--border)] bg-[rgba(255,255,255,0.01)] p-8 transition-colors duration-300 last:border-b-0 hover:bg-[var(--surface)] md:border-b-0 md:border-r md:last:border-r-0 [&:nth-child(-n+3)]:md:border-b"
-          >
-            <div className="mb-4 text-[2rem]">{cell.icon}</div>
-            <span
-              className={`mb-4 inline-block rounded-full border px-3 py-1 text-[0.62rem] uppercase tracking-[0.12em] ${cell.badgeClass}`}
-            >
-              {cell.badge}
-            </span>
-            <h3 className="neon-hover-text mb-2 text-[1.1rem] font-semibold">{cell.title}</h3>
-            <p className="text-[0.85rem] leading-[1.72] text-[var(--muted)]">{cell.body}</p>
-          </article>
+      <div className="industries-grid grid grid-cols-1 border border-[var(--border)] md:grid-cols-3">
+        {CELLS.map((cell, i) => (
+          <IndustryCell key={cell.title} cell={cell} index={i} />
         ))}
       </div>
     </section>

@@ -1,13 +1,29 @@
 import { useEffect, useRef } from 'react'
-import { Mail, Share2, MessageCircle, PlayCircle } from 'lucide-react'
-import { fadeUp } from '../utils/animations'
-import SectionAccent3D from './SectionAccent3D'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import CircuitBackground from './CircuitBackground'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Contact() {
   const sectionRef = useRef(null)
 
   useEffect(() => {
-    fadeUp('.contact-reveal', { trigger: sectionRef.current })
+    const ctx = gsap.context(() => {
+      gsap.from('.contact-reveal', {
+        y: 24,
+        opacity: 0,
+        stagger: 0.08,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 82%',
+          once: true,
+        },
+      })
+    }, sectionRef)
+    return () => ctx.revert()
   }, [])
 
   const handleSubmit = (e) => {
@@ -15,99 +31,60 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" ref={sectionRef} className="section-pad">
-      <p className="section-label contact-reveal">◆ GET IN TOUCH</p>
-      <h2 className="section-title contact-reveal">
-        Ready to Transform How You Work?
-      </h2>
+    <section id="contact" ref={sectionRef} className="contact-cta section-pad">
+      <CircuitBackground />
+      <p className="contact-watermark" aria-hidden>
+        VERBILAB AI
+      </p>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
-        <div className="contact-reveal grain-overlay relative rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 space-y-7">
-          <p className="max-w-md text-[0.95rem] leading-relaxed text-[var(--muted)]">
-            Tell us about your challenge. Our team will get back to you within 24 hours.
+      <div className="contact-cta-grid section-inner">
+        <div className="contact-cta-copy">
+          <p className="section-kicker contact-reveal">CONTACT</p>
+          <h2 className="display-lg contact-reveal contact-headline">
+            READY TO BUILD INTELLIGENT SYSTEMS?
+          </h2>
+          <p className="body-short contact-reveal">
+            Tell us your challenge. We respond within 24 hours.
           </p>
-          <a
-            href="mailto:hello@verbilab.ai"
-            className="inline-flex items-center gap-3 text-lg transition-colors hover:text-[var(--accent)]"
-          >
-            <Mail size={20} className="text-[var(--accent)]" />
-            hello@verbilab.ai
-          </a>
-          <div className="flex flex-wrap gap-6 text-sm text-[var(--muted)]">
-            <a href="#" className="inline-flex items-center gap-2 hover:text-[var(--white)]">
-              <Share2 size={16} /> LinkedIn
+          <div className="contact-meta contact-reveal">
+            <a
+              href="mailto:hello@verbilab.ai"
+              className="mono-label !text-[var(--white)] hover:text-[var(--accent)]"
+            >
+              hello@verbilab.ai
             </a>
-            <a href="#" className="inline-flex items-center gap-2 hover:text-[var(--white)]">
-              <MessageCircle size={16} /> Twitter/X
-            </a>
-            <a href="#" className="inline-flex items-center gap-2 hover:text-[var(--white)]">
-              <PlayCircle size={16} /> YouTube
-            </a>
+            <span className="contact-divider" aria-hidden />
+            <span className="mono-label subtle">Enterprise · BPO · BFSI</span>
           </div>
-          <ul className="space-y-2 text-[0.85rem] text-[var(--muted)]">
-            <li>• Fast onboarding for BPO, BFSI, and enterprise operations.</li>
-            <li>• Implementation support from discovery to deployment.</li>
-            <li>• Dedicated review within 24 hours after form submission.</li>
-          </ul>
-          <SectionAccent3D className="contact-accent" color="#63d5ff" />
         </div>
 
-        <form onSubmit={handleSubmit} className="contact-reveal grain-overlay rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 space-y-5">
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <Field label="Full Name" name="name" required />
-            <Field label="Company Name" name="company" required />
+        <form
+          onSubmit={handleSubmit}
+          className="contact-form glass-panel glow-border tech-frame contact-reveal"
+        >
+          <span className="tech-frame-corner tl" aria-hidden />
+          <span className="tech-frame-corner br" aria-hidden />
+          <p className="mono-label subtle contact-form-label">REQUEST A CONSULTATION</p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Name" name="name" required />
+            <Field label="Company" name="company" required />
           </div>
-          <Field label="Email Address" name="email" type="email" required />
-          <Field label="Phone Number (optional)" name="phone" />
-
-          <div>
-            <label className="field-label" htmlFor="industry">
-              Industry / Sector
-            </label>
-            <select id="industry" name="industry" className="field-input" required>
-              <option value="">Select industry</option>
-              <option>BPO / Contact Centre</option>
-              <option>Banking & NBFC</option>
-              <option>Insurance</option>
-              <option>Film & Entertainment</option>
-              <option>Enterprise</option>
-              <option>Startup</option>
-              <option>Other</option>
-            </select>
-          </div>
-
+          <Field label="Email" name="email" type="email" required />
           <div>
             <label className="field-label" htmlFor="challenge">
-              What are you looking to solve?
+              Challenge
             </label>
             <textarea
               id="challenge"
               name="challenge"
-              rows={4}
+              rows={3}
               className="field-input resize-y"
+              placeholder="Briefly describe your use case"
               required
             />
           </div>
-
-          <div>
-            <label className="field-label" htmlFor="source">
-              How did you hear about us?
-            </label>
-            <select id="source" name="source" className="field-input">
-              <option value="">Select one</option>
-              <option>LinkedIn</option>
-              <option>Google</option>
-              <option>Referral</option>
-              <option>Event</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-[var(--accent)] py-4 text-[0.9rem] font-medium text-[#050508] transition-opacity hover:opacity-85"
-          >
-            Let&apos;s Talk AI →
+          <button type="submit" className="btn-premium w-full">
+            Send Message
           </button>
         </form>
       </div>
@@ -116,19 +93,12 @@ export default function Contact() {
 }
 
 function Field({ label, name, type = 'text', required = false }) {
-  const id = name
   return (
     <div>
-      <label className="field-label" htmlFor={id}>
+      <label className="field-label" htmlFor={name}>
         {label}
       </label>
-      <input
-        id={id}
-        name={name}
-        type={type}
-        required={required}
-        className="field-input"
-      />
+      <input id={name} name={name} type={type} required={required} className="field-input" />
     </div>
   )
 }

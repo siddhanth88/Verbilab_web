@@ -1,21 +1,31 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import HeroCanvas from './HeroCanvas'
+import HeroVisual from './HeroVisual'
 
-const LINES = ['WE BUILD AI', 'THAT WORKS WHERE', 'IT MATTERS MOST.']
+const LINES = ['AI THAT WORKS', 'WHERE IT MATTERS']
 
 export default function Hero() {
   const sectionRef = useRef(null)
+  const parallaxRef = useRef({ x: 0, y: 0 })
   const motionRef = useRef({ speed: 0 })
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.hero-line span', {
-        y: '110%',
-        stagger: 0.12,
+        y: '100%',
+        stagger: 0.14,
         duration: 1.1,
-        ease: 'expo.out',
-        delay: 0.2,
+        ease: 'power3.out',
+        delay: 0.15,
+      })
+      gsap.from('.hero-reveal', {
+        y: 20,
+        opacity: 0,
+        stagger: 0.08,
+        duration: 0.8,
+        ease: 'power3.out',
+        delay: 0.5,
       })
     }, sectionRef)
     return () => ctx.revert()
@@ -25,81 +35,56 @@ export default function Hero() {
     const el = sectionRef.current
     if (!el) return
 
-    let lastX = 0
-    let lastY = 0
-
     const onMove = (e) => {
       const rect = el.getBoundingClientRect()
       const x = (e.clientX - rect.left) / rect.width - 0.5
       const y = (e.clientY - rect.top) / rect.height - 0.5
-      const speed = Math.hypot(x - lastX, y - lastY)
-      lastX = x
-      lastY = y
-      motionRef.current.speed = Math.min(1.5, motionRef.current.speed + speed * 2.5)
-    }
-
-    const onWheel = (e) => {
+      parallaxRef.current = { x, y }
       motionRef.current.speed = Math.min(
-        1.5,
-        motionRef.current.speed + Math.abs(e.deltaY) * 0.0015,
+        1.2,
+        Math.hypot(x, y) * 2.5 + Math.abs(x) * 0.4,
       )
     }
 
-    el.addEventListener('mousemove', onMove, { passive: true })
-    el.addEventListener('wheel', onWheel, { passive: true })
-    return () => {
-      el.removeEventListener('mousemove', onMove)
-      el.removeEventListener('wheel', onWheel)
-    }
+    window.addEventListener('mousemove', onMove, { passive: true })
+    return () => window.removeEventListener('mousemove', onMove)
   }, [])
 
   return (
-    <section
-      id="home"
-      ref={sectionRef}
-      className="relative flex min-h-screen flex-col justify-end px-[clamp(1.5rem,4vw,4rem)] pb-[clamp(2rem,5vh,4rem)] pt-28"
-    >
+    <section id="home" ref={sectionRef} className="hero-cinematic section-mesh scanlines grain">
       <HeroCanvas motionRef={motionRef} />
+      <div className="hero-ambient" aria-hidden />
+      <div className="pointer-events-none absolute inset-0 scanlines" aria-hidden />
 
-      <p
-        className="absolute left-[clamp(1.5rem,4vw,4rem)] top-[clamp(6rem,10vh,9rem)] z-[1] font-mono text-[0.65rem] tracking-[0.14em] text-[var(--accent)]"
-      >
-        ◆ AI-POWERED SOLUTIONS FOR THE REAL WORLD
-      </p>
-
-      <div className="relative z-[1] flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-        <h1 className="hero-title-glow font-display max-w-[14ch] text-[clamp(2.75rem,5.5vw,6.5rem)] leading-[0.92] tracking-[-0.01em] lg:max-w-[12ch]">
-          {LINES.map((line) => (
-            <span key={line} className="hero-line">
-              <span>{line}</span>
-            </span>
-          ))}
-        </h1>
-
-        <div className="max-w-[340px] shrink-0 space-y-6">
-          <p className="text-[0.95rem] leading-relaxed text-[var(--muted)]">
-            Verbilab AI is a next-generation AI solutions company. We engineer intelligent
-            products that automate, analyse, and augment how industries operate — turning complex
-            challenges into measurable outcomes.
+      <div className="hero-grid">
+        <div className="hero-copy">
+          <p className="section-kicker hero-reveal">APPLIED AI FOR REAL OPERATIONS</p>
+          <h1 className="display-xl hero-title-glow">
+            {LINES.map((line) => (
+              <span key={line} className="hero-line">
+                <span>{line}</span>
+              </span>
+            ))}
+          </h1>
+          <p className="body-short hero-reveal mt-6">
+            Audit calls, automate workflows, and turn enterprise data into decisions.
           </p>
-          <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-medium text-[#050508] transition-opacity hover:opacity-85"
-            >
-              Book a Demo →
+          <div className="hero-reveal mt-8 flex flex-wrap gap-3">
+            <a href="#contact" className="btn-primary">
+              Book a Demo
             </a>
-            <a
-              href="#solutions"
-              className="inline-flex items-center justify-center rounded-full border border-[var(--border2)] px-6 py-3 text-sm transition-colors hover:border-[var(--accent)]"
-            >
-              Explore Our Solutions
+            <a href="#features" className="btn-ghost">
+              View Systems
             </a>
           </div>
         </div>
+
+        <div className="hero-reveal hero-visual-col">
+          <HeroVisual parallaxRef={parallaxRef} />
+        </div>
       </div>
 
-      <span className="absolute bottom-8 right-[clamp(1.5rem,4vw,4rem)] z-[1] font-mono text-[0.65rem] tracking-[0.2em] text-[var(--muted)] opacity-50 [writing-mode:vertical-rl]">
+      <span className="mono-label absolute bottom-6 right-[clamp(1.25rem,4vw,4rem)] z-[3] opacity-40 [writing-mode:vertical-rl]">
         SCROLL
       </span>
     </section>

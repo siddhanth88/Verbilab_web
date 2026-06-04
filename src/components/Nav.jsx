@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
-import logoTransparent from '../assets/verbilab.logo2.png'
+import BrandLogo from './BrandLogo'
 
 const LINKS = [
   { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Solutions', href: '#solutions' },
-  { label: 'Products', href: '#products' },
+  { label: 'Systems', href: '#features' },
+  { label: 'Outcomes', href: '#outcomes' },
   { label: 'Industries', href: '#industries' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -15,6 +14,7 @@ const LINKS = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [sound, setSound] = useState(false)
 
   useEffect(() => {
     let ticking = false
@@ -41,38 +41,44 @@ export default function Nav() {
   return (
     <>
       <header
-        className={`fixed top-0 z-[800] w-full transition-all duration-300 ${
-          scrolled
-            ? 'border-b border-[var(--border2)] bg-[rgba(5,5,8,0.85)] backdrop-blur-[16px]'
-            : 'border-b border-transparent bg-transparent'
+        className={`nav-premium fixed top-0 z-[800] w-full transition-all duration-300 ${
+          scrolled ? 'nav-premium--scrolled' : ''
         }`}
       >
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-[clamp(1.5rem,4vw,4rem)] py-4">
-          <a href="#home" className="inline-flex items-center">
-            <img
-              src={logoTransparent}
-              alt="Verbilab AI"
-              className="h-9 w-auto object-contain md:h-10"
-            />
+        <div className="nav-premium-inner relative">
+          <button
+            type="button"
+            className="sound-toggle nav-sound shrink-0"
+            onClick={() => setSound((s) => !s)}
+            aria-label={`Sound ${sound ? 'on' : 'off'}`}
+          >
+            <span className="sound-bars">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <span key={i} className={`bar bar-${i} ${sound ? 'active' : ''}`} />
+              ))}
+            </span>
+            <span>SOUND: {sound ? 'ON' : 'OFF'}</span>
+          </button>
+
+          <div className="nav-center hidden md:flex">
+            <a href="#home" className="nav-logo inline-flex shrink-0 items-center">
+              <BrandLogo className="nav-logo-img h-9 w-auto md:h-10" />
+            </a>
+            <nav className="nav-links">
+              {LINKS.map((link) => (
+                <a key={link.href} href={link.href} className="nav-link">
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          <a href="#home" className="nav-logo inline-flex shrink-0 items-center md:hidden">
+            <BrandLogo className="h-8 w-auto" />
           </a>
 
-          <nav className="hidden items-center gap-8 md:flex">
-            {LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-[0.68rem] uppercase tracking-[0.18em] text-[var(--muted)] transition-colors hover:text-[var(--white)]"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          <a
-            href="#contact"
-            className="hidden rounded-full border border-[var(--accent)] px-5 py-2 text-[0.82rem] text-[var(--white)] transition-colors hover:bg-[var(--accent)] hover:text-[#050508] md:inline-block"
-          >
-            Get a Demo →
+          <a href="#contact" className="btn-premium nav-cta hidden shrink-0 md:inline-flex">
+            GET A DEMO
           </a>
 
           <button
@@ -93,42 +99,30 @@ export default function Nav() {
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ duration: 0.45, ease: [0.76, 0, 0.24, 1] }}
+            transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
           >
-            <div className="mb-12 flex justify-end">
-              <button
-                type="button"
-                aria-label="Close menu"
-                onClick={() => setOpen(false)}
-              >
+            <div className="mb-10 flex justify-end">
+              <button type="button" aria-label="Close menu" onClick={() => setOpen(false)}>
                 <X size={28} />
               </button>
             </div>
-            <nav className="flex flex-col gap-8">
-              <img
-                src={logoTransparent}
-                alt="Verbilab AI"
-                className="mb-4 h-10 w-auto object-contain"
-              />
+            <nav className="flex flex-col gap-6">
+              <BrandLogo className="mb-2 h-10 w-auto" />
               {LINKS.map((link, i) => (
                 <motion.a
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="font-display text-5xl tracking-wide"
-                  initial={{ opacity: 0, x: 40 }}
+                  className="display-lg !text-3xl"
+                  initial={{ opacity: 0, x: 32 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
+                  transition={{ delay: i * 0.05 }}
                 >
                   {link.label}
                 </motion.a>
               ))}
-              <a
-                href="#contact"
-                onClick={() => setOpen(false)}
-                className="mt-4 inline-flex w-fit rounded-full border border-[var(--accent)] px-6 py-3 text-sm"
-              >
-                Get a Demo →
+              <a href="#contact" onClick={() => setOpen(false)} className="btn-premium mt-4 w-fit">
+                GET A DEMO
               </a>
             </nav>
           </motion.div>

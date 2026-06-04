@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { fadeUp } from '../utils/animations'
+import IntegrationFlowDiagram from './IntegrationFlowDiagram'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -28,62 +29,77 @@ export default function HowItWorks() {
 
   useEffect(() => {
     fadeUp('.process-head', { trigger: sectionRef.current })
-    fadeUp('.process-step', { stagger: 0.12, trigger: sectionRef.current })
 
-    gsap.fromTo(
-      '.process-line',
-      { strokeDashoffset: 600 },
-      {
-        strokeDashoffset: 0,
-        duration: 1.5,
-        ease: 'power2.inOut',
-        scrollTrigger: {
-          trigger: '.process-line',
-          start: 'top 75%',
-        },
-      },
-    )
+    const ctx = gsap.context(() => {
+      const steps = gsap.utils.toArray('.process-step')
+      steps.forEach((step) => {
+        const numEl = step.querySelector('.step-number')
+        const textEls = [step.querySelector('.step-title'), step.querySelector('.step-body')]
+
+        if (numEl) {
+          gsap.from(numEl, {
+            scale: 1.2,
+            opacity: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: step,
+              start: 'top 88%',
+              toggleActions: 'play none none none',
+              once: true,
+            },
+          })
+        }
+
+        gsap.from(textEls, {
+          y: 20,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 0.75,
+          ease: 'power3.out',
+          delay: 0.15,
+          scrollTrigger: {
+            trigger: step,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+            once: true,
+          },
+        })
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
   }, [])
 
   return (
     <section ref={sectionRef} className="section-pad">
-      <p className="section-label process-head">◆ PROCESS</p>
-      <h2 className="section-title process-head">Get Started in Three Steps.</h2>
+      <p className="section-label process-head">PROCESS</p>
+      <h2 className="section-title process-head max-w-[16ch]">How Verbilab Connects Your World.</h2>
+      <p className="process-head mb-10 max-w-[52ch] text-[0.94rem] leading-[1.78] text-[var(--muted)]">
+        Industry challenges flow into our AI core — purpose-built products flow back out. One
+        platform, many sectors, measurable outcomes.
+      </p>
 
-      <div className="relative">
-        <svg
-          className="process-line absolute left-[16%] right-[16%] top-16 hidden h-2 w-[68%] md:block"
-          viewBox="0 0 600 4"
-          preserveAspectRatio="none"
-          fill="none"
-        >
-          <line
-            x1="0"
-            y1="2"
-            x2="600"
-            y2="2"
-            stroke="rgba(77,255,164,0.25)"
-            strokeWidth="1"
-            strokeDasharray="600"
-          />
-          <circle cx="0" cy="2" r="3" fill="var(--accent)" />
-          <circle cx="300" cy="2" r="3" fill="var(--accent)" />
-          <circle cx="600" cy="2" r="3" fill="var(--accent)" />
-        </svg>
+      <div className="process-head mb-16">
+        <IntegrationFlowDiagram />
+      </div>
 
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
-          {STEPS.map((step) => (
-            <div key={step.num} className="process-step relative">
-              <p className="font-display text-[5rem] leading-none text-[rgba(77,255,164,0.15)]">
-                {step.num}
-              </p>
-              <h3 className="mt-2 text-[1.2rem] font-semibold">{step.title}</h3>
-              <p className="mt-3 text-[0.88rem] leading-relaxed text-[var(--muted)]">
-                {step.body}
-              </p>
-            </div>
-          ))}
-        </div>
+      <p className="process-head mb-8 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-[var(--accent)]">
+        Three steps to get started
+      </p>
+
+      <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+        {STEPS.map((step) => (
+          <div key={step.num} className="process-step relative border-t border-[var(--border)] pt-8 md:border-t-0 md:pt-0">
+            <p className="step-number font-display text-[5rem] leading-none text-[rgba(0,255,133,0.15)]">
+              {step.num}
+            </p>
+            <h3 className="step-title mt-2 text-[1.2rem] font-semibold">{step.title}</h3>
+            <p className="step-body mt-3 text-[0.88rem] leading-relaxed text-[var(--muted)]">
+              {step.body}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   )

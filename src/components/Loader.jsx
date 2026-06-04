@@ -1,46 +1,67 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import logoWithBg from '../assets/verbilab.logo.jpeg'
+import BrandLogo from './BrandLogo'
 
-const TEXT = 'VERBILAB AI'
+const SEGMENTS = 11
+const DURATION_MS = 2000
 
 export default function Loader() {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     const start = performance.now()
-    const duration = 1800
 
     const tick = (now) => {
-      const p = Math.min(((now - start) / duration) * 100, 100)
+      const p = Math.min(((now - start) / DURATION_MS) * 100, 100)
       setProgress(p)
       if (p < 100) requestAnimationFrame(tick)
     }
     requestAnimationFrame(tick)
   }, [])
 
+  const filledCount = Math.floor((progress / 100) * SEGMENTS)
+
   return (
     <motion.div
-      className="fixed inset-0 z-[9000] flex flex-col justify-end bg-[#050508] p-[clamp(1.5rem,4vw,4rem)]"
-      exit={{ y: '-100%', transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] } }}
+      className="verbilab-loader"
+      initial={{ opacity: 1 }}
+      exit={{
+        y: '-100%',
+        opacity: 0.4,
+        transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
+      }}
     >
-      <div>
-        <motion.img
-          src={logoWithBg}
-          alt={TEXT}
-          className="h-[clamp(5.5rem,12vw,9rem)] w-auto rounded-lg object-contain"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-        />
+      <div className="verbilab-loader-scan" aria-hidden />
+
+      <div className="verbilab-loader-center">
+        <div className="verbilab-loader-mark">
+          <span className="verbilab-loader-mark-line" aria-hidden />
+          <BrandLogo className="verbilab-loader-logo h-10 w-auto" alt="Verbilab" />
+        </div>
+
+        <p className="verbilab-loader-title">VERBILAB</p>
+
+        <div className="verbilab-loader-bar-wrap">
+          <span className="verbilab-loader-corner verbilab-loader-corner--tl" aria-hidden />
+          <span className="verbilab-loader-corner verbilab-loader-corner--tr" aria-hidden />
+          <span className="verbilab-loader-corner verbilab-loader-corner--bl" aria-hidden />
+          <span className="verbilab-loader-corner verbilab-loader-corner--br" aria-hidden />
+          <div className="verbilab-loader-bar">
+            {Array.from({ length: SEGMENTS }).map((_, i) => (
+              <span
+                key={i}
+                className={`verbilab-loader-seg${i < filledCount ? ' is-on' : ''}${
+                  i === filledCount - 1 && progress < 100 ? ' is-pulse' : ''
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        <p className="verbilab-loader-pct">{Math.round(progress)}%</p>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-[var(--border2)]">
-        <motion.div
-          className="h-full bg-[var(--accent)]"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
+      <p className="verbilab-loader-tagline">AI SOLUTIONS COMPANY</p>
     </motion.div>
   )
 }
