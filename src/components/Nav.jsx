@@ -5,9 +5,10 @@ import BrandLogo from './BrandLogo'
 
 const LINKS = [
   { label: 'Home', href: '#home' },
-  { label: 'Systems', href: '#features' },
+  { label: 'Systems', href: '#systems' },
   { label: 'Outcomes', href: '#outcomes' },
   { label: 'Industries', href: '#industries' },
+  { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -61,10 +62,10 @@ export default function Nav() {
           </button>
 
           <div className="nav-center hidden md:flex">
-            <a href="#home" className="nav-logo inline-flex shrink-0 items-center">
+            <a href="#home" className="nav-logo inline-flex shrink-0 items-center" aria-label="Verbilab AI home">
               <BrandLogo className="nav-logo-img h-9 w-auto md:h-10" />
             </a>
-            <nav className="nav-links">
+            <nav className="nav-links" aria-label="Main navigation">
               {LINKS.map((link) => (
                 <a key={link.href} href={link.href} className="nav-link">
                   {link.label}
@@ -73,7 +74,7 @@ export default function Nav() {
             </nav>
           </div>
 
-          <a href="#home" className="nav-logo inline-flex shrink-0 items-center md:hidden">
+          <a href="#home" className="nav-logo inline-flex shrink-0 items-center md:hidden" aria-label="Verbilab AI home">
             <BrandLogo className="h-8 w-auto" />
           </a>
 
@@ -106,7 +107,7 @@ export default function Nav() {
                 <X size={28} />
               </button>
             </div>
-            <nav className="flex flex-col gap-6">
+            <nav className="flex flex-col gap-6" aria-label="Mobile navigation">
               <BrandLogo className="mb-2 h-10 w-auto" />
               {LINKS.map((link, i) => (
                 <motion.a

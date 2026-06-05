@@ -1,14 +1,86 @@
 import BrandLogo from './BrandLogo'
 
+const FOOTER_COLUMNS = [
+  {
+    title: 'Menu',
+    links: [
+      { label: 'Home', href: '#home' },
+      { label: 'Contact', href: '#contact' },
+      { label: 'About', href: '#about' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About', href: '#about' },
+      { label: 'Careers', href: 'mailto:hello@verbilab.ai?subject=Careers' },
+      { label: 'hello@verbilab.ai', href: 'mailto:hello@verbilab.ai' },
+    ],
+  },
+  {
+    title: 'Features',
+    links: [
+      { label: 'Product Systems', href: '#systems' },
+      { label: 'Outcomes', href: '#outcomes' },
+      { label: 'How It Works', href: '#how-it-works' },
+      { label: 'Industries', href: '#industries' },
+    ],
+  },
+  {
+    title: 'Socials',
+    links: [
+      { label: 'LinkedIn', href: 'https://linkedin.com', external: true },
+      { label: 'X', href: 'https://x.com', external: true },
+    ],
+  },
+]
+
 export default function Footer() {
   return (
-    <footer className="border-t border-[var(--border)] px-[clamp(1.25rem,4vw,4rem)] py-10">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div>
-          <BrandLogo className="h-9 w-auto" />
-          <p className="body-short mt-3">Intelligent solutions. Real results.</p>
+    <footer className="verbilab-footer">
+      <p className="footer-watermark" aria-hidden>
+        VERBILAB
+      </p>
+
+      <div className="footer-columns section-inner">
+        {FOOTER_COLUMNS.map((col) => (
+          <div key={col.title} className="footer-col">
+            <div className="footer-col-head">
+              <span>{col.title}</span>
+            </div>
+            <ul className="footer-col-links">
+              {col.links.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="footer-link"
+                    {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="footer-bottom section-inner">
+        <div className="footer-brand">
+          <BrandLogo className="h-8 w-auto" />
+          <p className="body-short mt-2">Intelligent solutions. Real results.</p>
         </div>
-        <p className="mono-label opacity-60">© 2025 Verbilab AI</p>
+        <div className="footer-legal">
+          <span className="mono-label subtle">© 2025 Verbilab AI</span>
+          <span className="footer-legal-divider" aria-hidden />
+          <a href="#contact" className="footer-link footer-link--small">
+            Privacy
+          </a>
+          <span className="footer-legal-divider" aria-hidden />
+          <a href="#contact" className="footer-link footer-link--small">
+            Terms
+          </a>
+        </div>
       </div>
     </footer>
   )

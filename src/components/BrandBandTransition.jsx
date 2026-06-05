@@ -57,7 +57,7 @@ export default function BrandBandTransition() {
   return (
     <section
       ref={sectionRef}
-      className="brand-band-transition"
+      className="brand-band-transition site-section"
       aria-label="Ready for outcomes"
     >
       <div className="bbt-deco">

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import HeroCanvas from './HeroCanvas'
 import HeroVisual from './HeroVisual'
+import { prefersReducedMotion } from '../utils/motion'
 
 const LINES = ['AI THAT WORKS', 'WHERE IT MATTERS']
 
@@ -12,12 +13,15 @@ export default function Hero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion()) return
+
       gsap.from('.hero-line span', {
         y: '100%',
         stagger: 0.14,
         duration: 1.1,
         ease: 'power3.out',
         delay: 0.15,
+        immediateRender: false,
       })
       gsap.from('.hero-reveal', {
         y: 20,
@@ -26,6 +30,7 @@ export default function Hero() {
         duration: 0.8,
         ease: 'power3.out',
         delay: 0.5,
+        immediateRender: false,
       })
     }, sectionRef)
     return () => ctx.revert()
@@ -60,6 +65,7 @@ export default function Hero() {
         <div className="hero-copy">
           <p className="section-kicker hero-reveal">APPLIED AI FOR REAL OPERATIONS</p>
           <h1 className="display-xl hero-title-glow">
+            <span className="sr-only">Verbilab AI — </span>
             {LINES.map((line) => (
               <span key={line} className="hero-line">
                 <span>{line}</span>
@@ -73,7 +79,7 @@ export default function Hero() {
             <a href="#contact" className="btn-primary">
               Book a Demo
             </a>
-            <a href="#features" className="btn-ghost">
+            <a href="#systems" className="btn-ghost">
               View Systems
             </a>
           </div>

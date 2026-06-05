@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react'
+import { prefersReducedMotion } from '../utils/motion'
 
 export default function CircuitBackground() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas || prefersReducedMotion()) return
 
     const ctx = canvas.getContext('2d')
     let animFrame

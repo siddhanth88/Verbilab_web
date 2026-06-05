@@ -3,12 +3,17 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './styles/globals.css'
 import Lenis from 'lenis'
+import { prefersReducedMotion } from './utils/motion'
 
-const lenis = new Lenis()
-function raf(time) {
-  lenis.raf(time)
-  requestAnimationFrame(raf)
+let lenisRafId
+
+if (!prefersReducedMotion()) {
+  const lenis = new Lenis()
+  const raf = (time) => {
+    lenis.raf(time)
+    lenisRafId = requestAnimationFrame(raf)
+  }
+  lenisRafId = requestAnimationFrame(raf)
 }
-requestAnimationFrame(raf)
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />)

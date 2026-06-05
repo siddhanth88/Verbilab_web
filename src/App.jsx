@@ -3,19 +3,24 @@ import { AnimatePresence } from 'framer-motion'
 import Loader from './components/Loader'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
+import SectionSeam from './components/SectionSeam'
 import FeatureTheatre from './components/FeatureTheatre'
 import BrandBandTransition from './components/BrandBandTransition'
 import OutcomeCards from './components/OutcomeCards'
 import IndustryMatrix from './components/IndustryMatrix'
-import ConnectionDiagram from './components/ConnectionDiagram'
+import IntegrationEcosystem from './components/IntegrationEcosystem'
+import AboutStrip from './components/AboutStrip'
+import AboutContactBridge from './components/AboutContactBridge'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import { prefersReducedMotion } from './utils/motion'
 
 export default function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2600)
+    const delay = prefersReducedMotion() ? 0 : 2600
+    const timer = setTimeout(() => setLoading(false), delay)
     return () => clearTimeout(timer)
   }, [])
 
@@ -27,7 +32,7 @@ export default function App() {
   }, [loading])
 
   useEffect(() => {
-    if (loading) return
+    if (loading || prefersReducedMotion()) return
 
     const dot = document.getElementById('cursor-dot')
     const ring = document.getElementById('cursor-ring')
@@ -86,25 +91,27 @@ export default function App() {
 
   return (
     <>
+      <a href="#main-content" className="skip-to-content">
+        Skip to main content
+      </a>
       <div id="cursor-glow" aria-hidden />
       <div id="cursor-ring" />
       <div id="cursor-dot" />
+      <Nav />
+      <main id="main-content">
+        <Hero />
+        <SectionSeam />
+        <FeatureTheatre />
+        <BrandBandTransition />
+        <OutcomeCards />
+        <IntegrationEcosystem />
+        <IndustryMatrix />
+        <AboutStrip />
+        <AboutContactBridge />
+        <Contact />
+      </main>
+      <Footer />
       <AnimatePresence>{loading && <Loader key="loader" />}</AnimatePresence>
-      {!loading && (
-        <>
-          <Nav />
-          <main>
-            <Hero />
-            <FeatureTheatre />
-            <BrandBandTransition />
-            <OutcomeCards />
-            <ConnectionDiagram />
-            <IndustryMatrix />
-            <Contact />
-          </main>
-          <Footer />
-        </>
-      )}
     </>
   )
 }

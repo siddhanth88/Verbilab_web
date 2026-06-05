@@ -76,7 +76,7 @@ export default function OutcomeCards() {
   }, [])
 
   return (
-    <section id="outcomes" ref={ref} className="outcomes-section">
+    <section id="outcomes" ref={ref} className="outcomes-section site-section">
       <div className="outcomes-unified">
         <div className="outcomes-trust-slice outcome-reveal">
           <p className="outcomes-trust-label">BUILT FOR OPERATIONS IN</p>

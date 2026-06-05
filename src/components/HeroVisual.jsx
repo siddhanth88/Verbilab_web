@@ -2,6 +2,7 @@ import { useEffect, useRef, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import gsap from 'gsap'
+import { prefersReducedMotion } from '../utils/motion'
 
 /* Same neon as HeroCanvas particle network — stronger bloom on the core */
 const NEON = '#00FF85'
@@ -80,6 +81,8 @@ export default function HeroVisual({ parallaxRef }) {
     if (!el) return
 
     const cards = el.querySelectorAll('.hero-float-card')
+    if (prefersReducedMotion()) return
+
     gsap.to(cards, {
       y: -10,
       duration: 2.8,

@@ -54,14 +54,15 @@ export default function FeatureTheatre() {
 
   return (
     <section
-      id="features"
+      id="systems"
       ref={sectionRef}
-      className="feature-theatre feature-theatre--hover feature-theatre--cyber section-pad !py-12 md:!py-16"
+      className="feature-theatre feature-theatre--hover feature-theatre--cyber site-section"
     >
       <div className="feature-theatre-inner">
         <div className="section-inner feature-theatre-grid">
           <div className="feature-theatre-copy">
             <p className="section-kicker ft-head-reveal !mb-2">PRODUCT SYSTEMS</p>
+            <h2 className="sr-only">Product Systems</h2>
             <p className="cyber-interface-label ft-head-reveal">INTERFACE · SELECT MODULE</p>
 
             <div className="feature-list" role="tablist" aria-label="Product systems">
@@ -70,16 +71,18 @@ export default function FeatureTheatre() {
                   key={f.id}
                   type="button"
                   role="tab"
+                  id={`feature-tab-${f.id}`}
                   aria-selected={active === i}
+                  aria-controls={`feature-panel-${f.id}`}
                   className={`feature-item ft-head-reveal ${active === i ? 'is-active' : ''}`}
                   onMouseEnter={() => setActive(i)}
                   onFocus={() => setActive(i)}
                   onClick={() => setActive(i)}
                 >
-                  <h2 className="feature-heading">
+                  <h3 className="feature-heading">
                     <span className="feature-heading-num">{f.index}</span>
                     {f.title}
-                  </h2>
+                  </h3>
                   <p className={`feature-desc-inline ${active === i ? 'is-visible' : ''}`}>
                     {f.desc}
                   </p>
@@ -95,7 +98,13 @@ export default function FeatureTheatre() {
             </div>
           </div>
 
-          <div className="feature-scene cyber-scene-wrap" aria-live="polite">
+          <div
+            className="feature-scene cyber-scene-wrap"
+            role="tabpanel"
+            id={`feature-panel-${activeId}`}
+            aria-labelledby={`feature-tab-${activeId}`}
+            aria-live="polite"
+          >
             <FeatureCyberScene activeId={activeId} />
             <a href="#contact" className="feature-scene-cta btn-ghost">
               Deploy system
