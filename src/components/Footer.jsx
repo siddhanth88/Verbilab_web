@@ -29,7 +29,7 @@ const FOOTER_COLUMNS = [
   {
     title: 'Socials',
     links: [
-      { label: 'LinkedIn', href: 'https://linkedin.com', external: true },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/company/verbilab/', external: true },
       { label: 'X', href: 'https://x.com', external: true },
     ],
   },
@@ -67,17 +67,17 @@ export default function Footer() {
 
       <div className="footer-bottom section-inner">
         <div className="footer-brand">
-          <BrandLogo className="h-8 w-auto" />
+          <BrandLogo className="h-9 w-auto opacity-90" />
           <p className="body-short mt-2">Intelligent solutions. Real results.</p>
         </div>
         <div className="footer-legal">
-          <span className="mono-label subtle">© 2025 Verbilab AI</span>
+          <span className="mono-label subtle">© 2026 Verbilab AI</span>
           <span className="footer-legal-divider" aria-hidden />
-          <a href="#contact" className="footer-link footer-link--small">
+          <a href="#privacy" className="footer-link footer-link--small">
             Privacy
           </a>
           <span className="footer-legal-divider" aria-hidden />
-          <a href="#contact" className="footer-link footer-link--small">
+          <a href="#terms" className="footer-link footer-link--small">
             Terms
           </a>
         </div>

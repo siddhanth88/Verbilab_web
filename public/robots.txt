@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://verbilab.com/sitemap.xml
+Sitemap: https://www.verbilab.com/sitemap.xml

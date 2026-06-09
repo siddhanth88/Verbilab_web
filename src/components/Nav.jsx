@@ -63,7 +63,7 @@ export default function Nav() {
 
           <div className="nav-center hidden md:flex">
             <a href="#home" className="nav-logo inline-flex shrink-0 items-center" aria-label="Verbilab AI home">
-              <BrandLogo className="nav-logo-img h-9 w-auto md:h-10" />
+              <BrandLogo className="nav-logo-img" />
             </a>
             <nav className="nav-links" aria-label="Main navigation">
               {LINKS.map((link) => (
@@ -75,7 +75,7 @@ export default function Nav() {
           </div>
 
           <a href="#home" className="nav-logo inline-flex shrink-0 items-center md:hidden" aria-label="Verbilab AI home">
-            <BrandLogo className="h-8 w-auto" />
+            <BrandLogo className="nav-logo-img nav-logo-img--mobile" />
           </a>
 
           <a href="#contact" className="btn-premium nav-cta hidden shrink-0 md:inline-flex">
@@ -108,7 +108,7 @@ export default function Nav() {
               </button>
             </div>
             <nav className="flex flex-col gap-6" aria-label="Mobile navigation">
-              <BrandLogo className="mb-2 h-10 w-auto" />
+              <BrandLogo className="nav-logo-img nav-logo-img--menu mb-2" />
               {LINKS.map((link, i) => (
                 <motion.a
                   key={link.href}

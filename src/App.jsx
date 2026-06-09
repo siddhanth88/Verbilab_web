@@ -12,6 +12,7 @@ import IntegrationEcosystem from './components/IntegrationEcosystem'
 import AboutStrip from './components/AboutStrip'
 import AboutContactBridge from './components/AboutContactBridge'
 import Contact from './components/Contact'
+import LegalSections from './components/LegalSections'
 import Footer from './components/Footer'
 import { prefersReducedMotion } from './utils/motion'
 
@@ -109,6 +110,7 @@ export default function App() {
         <AboutStrip />
         <AboutContactBridge />
         <Contact />
+        <LegalSections />
       </main>
       <Footer />
       <AnimatePresence>{loading && <Loader key="loader" />}</AnimatePresence>
