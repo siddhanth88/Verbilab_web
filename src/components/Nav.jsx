@@ -12,7 +12,7 @@ const LINKS = [
   { label: 'Contact', href: '#contact' },
 ]
 
-export default function Nav() {
+export default function Nav({ homeHref = '#home' }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [sound, setSound] = useState(false)
@@ -47,38 +47,51 @@ export default function Nav() {
         }`}
       >
         <div className="nav-premium-inner relative">
-          <button
-            type="button"
-            className="sound-toggle nav-sound shrink-0"
-            onClick={() => setSound((s) => !s)}
-            aria-label={`Sound ${sound ? 'on' : 'off'}`}
-          >
-            <span className="sound-bars">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <span key={i} className={`bar bar-${i} ${sound ? 'active' : ''}`} />
-              ))}
-            </span>
-            <span>SOUND: {sound ? 'ON' : 'OFF'}</span>
-          </button>
+          <div className="nav-left-cluster shrink-0">
+            <p className="nav-systems-status mono-label" aria-live="polite">
+              <span className="nav-systems-dot" aria-hidden />
+              SYSTEMS NOMINAL
+            </p>
+            <button
+              type="button"
+              className="sound-toggle nav-sound"
+              onClick={() => setSound((s) => !s)}
+              aria-label={`Sound ${sound ? 'on' : 'off'}`}
+            >
+              <span className="sound-bars">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <span key={i} className={`bar bar-${i} ${sound ? 'active' : ''}`} />
+                ))}
+              </span>
+              <span>SOUND: {sound ? 'ON' : 'OFF'}</span>
+            </button>
+          </div>
 
           <div className="nav-center hidden md:flex">
-            <a href="#home" className="nav-logo inline-flex shrink-0 items-center" aria-label="Verbilab AI home">
+            <a href={homeHref} className="nav-logo inline-flex shrink-0 items-center" aria-label="Verbilab AI home">
               <BrandLogo className="nav-logo-img" />
             </a>
             <nav className="nav-links" aria-label="Main navigation">
               {LINKS.map((link) => (
-                <a key={link.href} href={link.href} className="nav-link">
+                <a
+                  key={link.href}
+                  href={homeHref === '/' ? `/${link.href}` : link.href}
+                  className="nav-link"
+                >
                   {link.label}
                 </a>
               ))}
             </nav>
           </div>
 
-          <a href="#home" className="nav-logo inline-flex shrink-0 items-center md:hidden" aria-label="Verbilab AI home">
+          <a href={homeHref} className="nav-logo inline-flex shrink-0 items-center md:hidden" aria-label="Verbilab AI home">
             <BrandLogo className="nav-logo-img nav-logo-img--mobile" />
           </a>
 
-          <a href="#contact" className="btn-premium nav-cta hidden shrink-0 md:inline-flex">
+          <a
+            href={homeHref === '/' ? '/#contact' : '#contact'}
+            className="btn-premium nav-cta hidden shrink-0 md:inline-flex"
+          >
             GET A DEMO
           </a>
 
@@ -112,7 +125,7 @@ export default function Nav() {
               {LINKS.map((link, i) => (
                 <motion.a
                   key={link.href}
-                  href={link.href}
+                  href={homeHref === '/' ? `/${link.href}` : link.href}
                   onClick={() => setOpen(false)}
                   className="display-lg !text-3xl"
                   initial={{ opacity: 0, x: 32 }}
@@ -122,7 +135,11 @@ export default function Nav() {
                   {link.label}
                 </motion.a>
               ))}
-              <a href="#contact" onClick={() => setOpen(false)} className="btn-premium mt-4 w-fit">
+              <a
+                href={homeHref === '/' ? '/#contact' : '#contact'}
+                onClick={() => setOpen(false)}
+                className="btn-premium mt-4 w-fit"
+              >
                 GET A DEMO
               </a>
             </nav>

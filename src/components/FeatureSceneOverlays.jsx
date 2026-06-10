@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import LiveAuditDashboard from './LiveAuditDashboard'
 
 const SCENES = {
   audit: {
@@ -63,6 +64,8 @@ export default function FeatureSceneOverlays({ activeId }) {
     <div className="cyber-hud" ref={sceneRef}>
       <div className="cyber-hud-ring" aria-hidden />
       <div className="cyber-hud-ring cyber-hud-ring--2" aria-hidden />
+
+      {activeId === 'audit' && <LiveAuditDashboard />}
 
       <div className={`cyber-terminal cyber-terminal--${activeId}`}>
         <div className="cyber-terminal-header">

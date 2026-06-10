@@ -58,6 +58,7 @@ export default function FeatureTheatre() {
       ref={sectionRef}
       className="feature-theatre feature-theatre--hover feature-theatre--cyber site-section"
     >
+      <div className="section-glow" aria-hidden />
       <div className="feature-theatre-inner">
         <div className="section-inner feature-theatre-grid">
           <div className="feature-theatre-copy">

@@ -1,22 +1,33 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import BrandLogo from './BrandLogo'
+import { prefersReducedMotion } from '../utils/motion'
 
 const SEGMENTS = 11
-const DURATION_MS = 2000
+const DURATION_MS = 2600
+
+export function getLoaderDuration() {
+  return prefersReducedMotion() ? 0 : DURATION_MS
+}
 
 export default function Loader() {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    const start = performance.now()
+    if (prefersReducedMotion()) {
+      setProgress(100)
+      return
+    }
 
+    const start = performance.now()
+    let rafId
     const tick = (now) => {
       const p = Math.min(((now - start) / DURATION_MS) * 100, 100)
       setProgress(p)
-      if (p < 100) requestAnimationFrame(tick)
+      if (p < 100) rafId = requestAnimationFrame(tick)
     }
-    requestAnimationFrame(tick)
+    rafId = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafId)
   }, [])
 
   const filledCount = Math.floor((progress / 100) * SEGMENTS)
@@ -27,7 +38,7 @@ export default function Loader() {
       initial={{ opacity: 1 }}
       exit={{
         y: '-100%',
-        opacity: 0.4,
+        opacity: 0.35,
         transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
       }}
     >

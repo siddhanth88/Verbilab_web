@@ -1,8 +1,11 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import HeroCanvas from './HeroCanvas'
 import HeroVisual from './HeroVisual'
 import { prefersReducedMotion } from '../utils/motion'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const LINES = ['AI THAT WORKS', 'WHERE IT MATTERS']
 
@@ -10,6 +13,7 @@ export default function Hero() {
   const sectionRef = useRef(null)
   const parallaxRef = useRef({ x: 0, y: 0 })
   const motionRef = useRef({ speed: 0 })
+  const scrollRef = useRef({ p: 0 })
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -55,11 +59,32 @@ export default function Hero() {
     return () => window.removeEventListener('mousemove', onMove)
   }, [])
 
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section || prefersReducedMotion()) return
+
+    const tween = gsap.to(scrollRef.current, {
+      p: 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.6,
+      },
+    })
+
+    return () => tween.scrollTrigger?.kill()
+  }, [])
+
   return (
     <section id="home" ref={sectionRef} className="hero-cinematic section-mesh scanlines grain">
-      <HeroCanvas motionRef={motionRef} />
+      <HeroCanvas motionRef={motionRef} scrollRef={scrollRef} />
       <div className="hero-ambient" aria-hidden />
-      <div className="pointer-events-none absolute inset-0 scanlines" aria-hidden />
+      <span className="hero-bracket-tl" aria-hidden />
+      <span className="hero-bracket-tr" aria-hidden />
+      <span className="hero-bracket-bl" aria-hidden />
+      <span className="hero-bracket-br" aria-hidden />
 
       <div className="hero-grid">
         <div className="hero-copy">

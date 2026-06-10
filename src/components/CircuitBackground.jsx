@@ -1,11 +1,12 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
+import { useInViewCanvas } from '../hooks/useInViewCanvas'
 import { prefersReducedMotion } from '../utils/motion'
 
 export default function CircuitBackground() {
-  const canvasRef = useRef(null)
+  const { ref, inViewRef } = useInViewCanvas()
 
   useEffect(() => {
-    const canvas = canvasRef.current
+    const canvas = ref.current
     if (!canvas || prefersReducedMotion()) return
 
     const ctx = canvas.getContext('2d')
@@ -14,14 +15,14 @@ export default function CircuitBackground() {
     const ACCENT = '#00FF85'
 
     const setup = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
       const w = canvas.offsetWidth
       const h = canvas.offsetHeight
       canvas.width = w * dpr
       canvas.height = h * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-      const CELL = 40
+      const CELL = 48
       const COLS = Math.floor(w / CELL)
       const ROWS = Math.floor(h / CELL)
       const nodes = []
@@ -29,12 +30,12 @@ export default function CircuitBackground() {
 
       for (let x = 1; x < COLS; x++) {
         for (let y = 1; y < ROWS; y++) {
-          if (Math.random() > 0.65) {
+          if (Math.random() > 0.7) {
             nodes.push({
               x: x * CELL + (Math.random() - 0.5) * 10,
               y: y * CELL + (Math.random() - 0.5) * 10,
               pulse: Math.random(),
-              pulseSpeed: 0.005 + Math.random() * 0.01,
+              pulseSpeed: 0.007 + Math.random() * 0.014,
               size: Math.random() > 0.85 ? 3 : 1.5,
             })
           }
@@ -49,7 +50,7 @@ export default function CircuitBackground() {
               a,
               b,
               progress: 0,
-              speed: 0.002 + Math.random() * 0.004,
+              speed: 0.0028 + Math.random() * 0.0056,
               active: false,
             })
           }
@@ -62,15 +63,19 @@ export default function CircuitBackground() {
     let state = setup()
 
     intervalId = setInterval(() => {
+      if (!inViewRef.current) return
       const inactive = state.connections.filter((c) => !c.active)
       if (inactive.length) {
         const pick = inactive[Math.floor(Math.random() * inactive.length)]
         pick.active = true
         pick.progress = 0
       }
-    }, 150)
+    }, 79)
 
     const draw = () => {
+      animFrame = requestAnimationFrame(draw)
+      if (!inViewRef.current) return
+
       const { w, h, nodes, connections } = state
       ctx.clearRect(0, 0, w, h)
 
@@ -110,12 +115,9 @@ export default function CircuitBackground() {
         ctx.stroke()
 
         ctx.fillStyle = ACCENT
-        ctx.shadowBlur = 8
-        ctx.shadowColor = ACCENT
         ctx.beginPath()
         ctx.arc(px, py, 2.5, 0, Math.PI * 2)
         ctx.fill()
-        ctx.shadowBlur = 0
       })
 
       nodes.forEach((node) => {
@@ -126,8 +128,6 @@ export default function CircuitBackground() {
         ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2)
         ctx.fill()
       })
-
-      animFrame = requestAnimationFrame(draw)
     }
 
     draw()
@@ -142,13 +142,7 @@ export default function CircuitBackground() {
       clearInterval(intervalId)
       window.removeEventListener('resize', onResize)
     }
-  }, [])
+  }, [inViewRef, ref])
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="circuit-canvas"
-      aria-hidden
-    />
-  )
+  return <canvas ref={ref} className="circuit-canvas" aria-hidden />
 }

@@ -1,28 +1,47 @@
-import { Suspense, useMemo, useRef } from 'react'
+import { Suspense, useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import * as THREE from 'three'
+import { prefersReducedMotion } from '../utils/motion'
 
-const COUNT = 260
-const CONNECT_DIST = 1.55
+gsap.registerPlugin(ScrollTrigger)
+
+const COUNT = 600
+const CONNECT_DIST = 1.45
 const NEON = '#00FF85'
 
-function ParticleNetwork({ motionRef }) {
+function ParticleNetwork({ motionRef, scrollRef }) {
   const groupRef = useRef()
   const target = useRef({ x: 0, y: 0 })
   const prevPointer = useRef({ x: 0, y: 0 })
   const boost = useRef(0)
+  const baseZ = useRef(5)
 
-  const { positions, linePositions } = useMemo(() => {
+  const { positions, colors, linePositions } = useMemo(() => {
     const positions = new Float32Array(COUNT * 3)
+    const colors = new Float32Array(COUNT * 3)
     const pts = []
 
     for (let i = 0; i < COUNT; i++) {
-      const x = (Math.random() - 0.5) * 11
-      const y = (Math.random() - 0.5) * 7
-      const z = (Math.random() - 0.5) * 5
+      const x = (Math.random() - 0.5) * 18
+      const y = (Math.random() - 0.5) * 12
+      const z = (Math.random() - 0.5) * 9
       positions[i * 3] = x
       positions[i * 3 + 1] = y
       positions[i * 3 + 2] = z
+
+      const isGreen = Math.random() < 0.6
+      if (isGreen) {
+        colors[i * 3] = 0
+        colors[i * 3 + 1] = 1
+        colors[i * 3 + 2] = 0.52
+      } else {
+        colors[i * 3] = 1
+        colors[i * 3 + 1] = 1
+        colors[i * 3 + 2] = 1
+      }
+
       pts.push(new THREE.Vector3(x, y, z))
     }
 
@@ -44,6 +63,7 @@ function ParticleNetwork({ motionRef }) {
 
     return {
       positions,
+      colors,
       linePositions: new Float32Array(segments),
     }
   }, [])
@@ -61,16 +81,23 @@ function ParticleNetwork({ motionRef }) {
     boost.current += (pointerSpeed + external - boost.current) * 0.11
     if (motionRef?.current) motionRef.current.speed *= 0.93
 
-    const spin = 0.0018 + boost.current * 0.038
+    const spin = 0.0015 + boost.current * 0.032
     groupRef.current.rotation.y += spin
-    groupRef.current.rotation.x += dy * 0.1 - groupRef.current.rotation.x * 0.045
-    groupRef.current.rotation.z += dx * 0.06 - groupRef.current.rotation.z * 0.045
+    groupRef.current.rotation.x += dy * 0.08 - groupRef.current.rotation.x * 0.04
+    groupRef.current.rotation.z += dx * 0.05 - groupRef.current.rotation.z * 0.04
 
-    const parallax = 1
-    target.current.x += (x * parallax - target.current.x) * 0.16
-    target.current.y += (y * parallax - target.current.y) * 0.16
+    const px = THREE.MathUtils.clamp(x * 0.3, -0.3, 0.3)
+    const py = THREE.MathUtils.clamp(y * 0.3, -0.3, 0.3)
+    target.current.x += (px - target.current.x) * 0.14
+    target.current.y += (py - target.current.y) * 0.14
+
+    const scroll = scrollRef?.current?.p ?? 0
+    const targetZ = 5 - scroll * 2
+    baseZ.current += (targetZ - baseZ.current) * 0.06
+
     state.camera.position.x = target.current.x
     state.camera.position.y = target.current.y
+    state.camera.position.z = baseZ.current
     state.camera.lookAt(0, 0, 0)
   })
 
@@ -79,17 +106,34 @@ function ParticleNetwork({ motionRef }) {
       <points>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[positions, 3]} count={COUNT} />
+          <bufferAttribute attach="attributes-color" args={[colors, 3]} count={COUNT} />
         </bufferGeometry>
         <pointsMaterial
-          color={NEON}
-          size={0.07}
+          size={0.078}
           sizeAttenuation
           transparent
-          opacity={0.9}
+          opacity={0.78}
+          vertexColors
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
       </points>
+      <lineSegments scale={[1.012, 1.012, 1.012]}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            args={[linePositions, 3]}
+            count={linePositions.length / 3}
+          />
+        </bufferGeometry>
+        <lineBasicMaterial
+          color={NEON}
+          transparent
+          opacity={0.14}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </lineSegments>
       <lineSegments>
         <bufferGeometry>
           <bufferAttribute
@@ -101,7 +145,7 @@ function ParticleNetwork({ motionRef }) {
         <lineBasicMaterial
           color={NEON}
           transparent
-          opacity={0.45}
+          opacity={0.48}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
@@ -110,19 +154,41 @@ function ParticleNetwork({ motionRef }) {
   )
 }
 
-export default function HeroCanvas({ motionRef }) {
+export default function HeroCanvas({ motionRef, scrollRef }) {
+  const wrapRef = useRef(null)
+
+  useEffect(() => {
+    const wrap = wrapRef.current
+    if (!wrap || prefersReducedMotion()) return
+
+    const st = ScrollTrigger.create({
+      trigger: '#home',
+      start: 'top top',
+      end: 'bottom top',
+      onLeave: () => {
+        wrap.style.visibility = 'hidden'
+      },
+      onEnterBack: () => {
+        wrap.style.visibility = 'visible'
+      },
+    })
+
+    return () => st.kill()
+  }, [])
+
   return (
-    <div className="hero-canvas-wrap absolute inset-0 z-0">
+    <div ref={wrapRef} className="hero-canvas-wrap hero-canvas-wrap--fullscreen">
       <div className="hero-canvas-glow absolute inset-0" aria-hidden />
       <div className="hero-canvas-grain absolute inset-0" aria-hidden />
+      <div className="hero-scanlines" aria-hidden />
       <Canvas
         className="!h-full !w-full"
-        camera={{ position: [0, 0, 6], fov: 52 }}
-        dpr={[1, 2]}
+        camera={{ position: [0, 0, 5], fov: 52 }}
+        dpr={[1, 1.75]}
         gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
       >
         <Suspense fallback={null}>
-          <ParticleNetwork motionRef={motionRef} />
+          <ParticleNetwork motionRef={motionRef} scrollRef={scrollRef} />
         </Suspense>
       </Canvas>
     </div>

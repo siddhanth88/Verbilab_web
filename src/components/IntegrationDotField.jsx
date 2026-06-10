@@ -1,11 +1,12 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
+import { useInViewCanvas } from '../hooks/useInViewCanvas'
 import { prefersReducedMotion } from '../utils/motion'
 
 export default function IntegrationDotField() {
-  const canvasRef = useRef(null)
+  const { ref, inViewRef } = useInViewCanvas()
 
   useEffect(() => {
-    const canvas = canvasRef.current
+    const canvas = ref.current
     if (!canvas || prefersReducedMotion()) return
 
     const ctx = canvas.getContext('2d')
@@ -15,13 +16,13 @@ export default function IntegrationDotField() {
     const build = () => {
       const w = canvas.offsetWidth
       const h = canvas.offsetHeight
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
       canvas.width = w * dpr
       canvas.height = h * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-      const count = Math.floor((w * h) / 4200)
-      dots = Array.from({ length: Math.max(28, count) }, () => ({
+      const count = Math.floor((w * h) / 6200)
+      dots = Array.from({ length: Math.max(22, count) }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
         r: Math.random() > 0.88 ? 1.6 : 0.8,
@@ -36,6 +37,9 @@ export default function IntegrationDotField() {
     window.addEventListener('resize', onResize)
 
     const draw = (t) => {
+      rafId = requestAnimationFrame(draw)
+      if (!inViewRef.current) return
+
       const w = canvas.offsetWidth
       const h = canvas.offsetHeight
       ctx.clearRect(0, 0, w, h)
@@ -59,8 +63,6 @@ export default function IntegrationDotField() {
           ctx.fill()
         }
       })
-
-      rafId = requestAnimationFrame(draw)
     }
 
     rafId = requestAnimationFrame(draw)
@@ -69,7 +71,7 @@ export default function IntegrationDotField() {
       cancelAnimationFrame(rafId)
       window.removeEventListener('resize', onResize)
     }
-  }, [])
+  }, [inViewRef, ref])
 
-  return <canvas className="integration-dot-field" aria-hidden />
+  return <canvas ref={ref} className="integration-dot-field" aria-hidden />
 }

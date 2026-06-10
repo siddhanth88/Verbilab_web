@@ -78,7 +78,7 @@ function animatePacket(path, dot, opts = {}) {
 function VerbilabHub() {
   return (
     <g className="integration-hub">
-      <circle className="hub-glow-ring" cx={CX} cy={CY} r="44" fill="none" stroke="rgba(0,255,133,0.07)" strokeWidth="12" />
+      <circle className="hub-glow-ring hub-hex-glow" cx={CX} cy={CY} r="44" fill="none" stroke="rgba(0,255,133,0.07)" strokeWidth="12" />
       <polygon
         className="hub-hex-shape"
         points={hexPoints(CX, CY, 32)}

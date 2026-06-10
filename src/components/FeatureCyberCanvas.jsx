@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
+import { useInViewCanvas } from '../hooks/useInViewCanvas'
 
 const NEON = '0, 255, 133'
 const CYAN = '0, 212, 255'
 
 export default function FeatureCyberCanvas() {
-  const ref = useRef(null)
+  const { ref, inViewRef } = useInViewCanvas()
 
   useEffect(() => {
     const canvas = ref.current
@@ -69,6 +70,9 @@ export default function FeatureCyberCanvas() {
 
     let t = 0
     const draw = () => {
+      raf = requestAnimationFrame(draw)
+      if (!inViewRef.current) return
+
       const w = canvas.offsetWidth
       const h = canvas.offsetHeight
       t += 0.016
@@ -108,7 +112,6 @@ export default function FeatureCyberCanvas() {
         ctx.fill()
       })
 
-      raf = requestAnimationFrame(draw)
     }
 
     draw()
@@ -117,7 +120,7 @@ export default function FeatureCyberCanvas() {
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', resize)
     }
-  }, [])
+  }, [inViewRef, ref])
 
   return <canvas ref={ref} className="cyber-canvas-bg" aria-hidden />
 }

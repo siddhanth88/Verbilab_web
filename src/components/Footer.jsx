@@ -73,11 +73,11 @@ export default function Footer() {
         <div className="footer-legal">
           <span className="mono-label subtle">© 2026 Verbilab AI</span>
           <span className="footer-legal-divider" aria-hidden />
-          <a href="#privacy" className="footer-link footer-link--small">
+          <a href="/privacy" className="footer-link footer-link--small">
             Privacy
           </a>
           <span className="footer-legal-divider" aria-hidden />
-          <a href="#terms" className="footer-link footer-link--small">
+          <a href="/terms" className="footer-link footer-link--small">
             Terms
           </a>
         </div>

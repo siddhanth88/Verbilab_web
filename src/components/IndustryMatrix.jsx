@@ -110,6 +110,7 @@ export default function IndustryMatrix() {
 
   return (
     <section id="industries" ref={ref} className="site-section section-mesh industries-section">
+      <div className="section-glow" aria-hidden />
       <div className="section-inner">
         <p className="section-kicker industries-reveal">INDUSTRIES</p>
         <h2 className="display-lg industries-reveal mb-8 max-w-[14ch]">Built where stakes are high.</h2>

@@ -3,6 +3,7 @@
 export default function SectionSeam() {
   return (
     <div className="section-seam" aria-hidden>
+      <div className="section-glow" />
       <div className="section-seam-ceiling scanlines">
         <div className="section-seam-scan" />
       </div>

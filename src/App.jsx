@@ -1,36 +1,32 @@
 import { useState, useEffect } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import Loader from './components/Loader'
-import Nav from './components/Nav'
-import Hero from './components/Hero'
-import SectionSeam from './components/SectionSeam'
-import FeatureTheatre from './components/FeatureTheatre'
-import BrandBandTransition from './components/BrandBandTransition'
-import OutcomeCards from './components/OutcomeCards'
-import IndustryMatrix from './components/IndustryMatrix'
-import IntegrationEcosystem from './components/IntegrationEcosystem'
-import AboutStrip from './components/AboutStrip'
-import AboutContactBridge from './components/AboutContactBridge'
-import Contact from './components/Contact'
-import LegalSections from './components/LegalSections'
-import Footer from './components/Footer'
+import Loader, { getLoaderDuration } from './components/Loader'
+import HomePage from './pages/HomePage'
+import LegalPage from './pages/LegalPage'
 import { prefersReducedMotion } from './utils/motion'
+import { usePathname } from './utils/router'
 
 export default function App() {
   const [loading, setLoading] = useState(true)
+  const pathname = usePathname()
+
+  const isPrivacy = pathname === '/privacy'
+  const isTerms = pathname === '/terms'
+  const isLegal = isPrivacy || isTerms
 
   useEffect(() => {
-    const delay = prefersReducedMotion() ? 0 : 2600
+    const hash = window.location.hash
+    if (hash === '#privacy' || hash === '#terms') {
+      const path = hash === '#privacy' ? '/privacy' : '/terms'
+      window.history.replaceState({}, '', path)
+      window.dispatchEvent(new PopStateEvent('popstate'))
+      return
+    }
+
+    const delay = getLoaderDuration()
     const timer = setTimeout(() => setLoading(false), delay)
     return () => clearTimeout(timer)
   }, [])
-
-  useEffect(() => {
-    if (loading) return
-    import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
-      requestAnimationFrame(() => ScrollTrigger.refresh())
-    })
-  }, [loading])
 
   useEffect(() => {
     if (loading || prefersReducedMotion()) return
@@ -47,6 +43,7 @@ export default function App() {
     let mouseX = 0
     let mouseY = 0
     let rafId
+    let pageActive = !document.hidden
 
     const onMove = (e) => {
       mouseX = e.clientX
@@ -56,6 +53,9 @@ export default function App() {
     }
 
     const animateRing = () => {
+      rafId = requestAnimationFrame(animateRing)
+      if (!pageActive) return
+
       ringX += (mouseX - ringX) * 0.48
       ringY += (mouseY - ringY) * 0.48
       ring.style.left = `${ringX}px`
@@ -66,26 +66,35 @@ export default function App() {
         glow.style.left = `${glowX}px`
         glow.style.top = `${glowY}px`
       }
-      rafId = requestAnimationFrame(animateRing)
     }
 
-    const links = document.querySelectorAll('a, button, [data-cursor-hover]')
-    const onEnter = () => ring.classList.add('hovering')
-    const onLeave = () => ring.classList.remove('hovering')
-    links.forEach((el) => {
-      el.addEventListener('mouseenter', onEnter)
-      el.addEventListener('mouseleave', onLeave)
-    })
+    const onPointerOver = (e) => {
+      if (e.target.closest('a, button, [data-cursor-hover]')) {
+        ring.classList.add('hovering')
+      }
+    }
 
-    document.addEventListener('mousemove', onMove)
+    const onPointerOut = (e) => {
+      if (e.target.closest('a, button, [data-cursor-hover]')) {
+        ring.classList.remove('hovering')
+      }
+    }
+
+    const onVisibility = () => {
+      pageActive = !document.hidden
+    }
+
+    document.addEventListener('mousemove', onMove, { passive: true })
+    document.addEventListener('mouseover', onPointerOver)
+    document.addEventListener('mouseout', onPointerOut)
+    document.addEventListener('visibilitychange', onVisibility)
     rafId = requestAnimationFrame(animateRing)
 
     return () => {
       document.removeEventListener('mousemove', onMove)
-      links.forEach((el) => {
-        el.removeEventListener('mouseenter', onEnter)
-        el.removeEventListener('mouseleave', onLeave)
-      })
+      document.removeEventListener('mouseover', onPointerOver)
+      document.removeEventListener('mouseout', onPointerOut)
+      document.removeEventListener('visibilitychange', onVisibility)
       cancelAnimationFrame(rafId)
     }
   }, [loading])
@@ -98,22 +107,10 @@ export default function App() {
       <div id="cursor-glow" aria-hidden />
       <div id="cursor-ring" />
       <div id="cursor-dot" />
-      <Nav />
-      <main id="main-content">
-        <Hero />
-        <SectionSeam />
-        <FeatureTheatre />
-        <BrandBandTransition />
-        <OutcomeCards />
-        <IntegrationEcosystem />
-        <IndustryMatrix />
-        <AboutStrip />
-        <AboutContactBridge />
-        <Contact />
-        <LegalSections />
-      </main>
-      <Footer />
-      <AnimatePresence>{loading && <Loader key="loader" />}</AnimatePresence>
+      {isPrivacy && <LegalPage type="privacy" />}
+      {isTerms && <LegalPage type="terms" />}
+      {!isLegal && <HomePage loading={loading} />}
+      <AnimatePresence>{loading && !isLegal && <Loader key="loader" />}</AnimatePresence>
     </>
   )
 }

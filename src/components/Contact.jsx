@@ -146,9 +146,13 @@ export default function Contact() {
 
       <CircuitBackground />
 
-      <p className="contact-watermark" aria-hidden>
+      <div className="cta-pulse" aria-hidden />
 
-        VERBILAB AI
+      <div className="contact-sonar-ping" aria-hidden />
+
+      <p className="contact-watermark cta-watermark" aria-hidden>
+
+        VERBILAB
 
       </p>
 
@@ -160,7 +164,7 @@ export default function Contact() {
 
           <p className="section-kicker contact-reveal">CONTACT</p>
 
-          <h2 className="display-lg contact-reveal contact-headline">
+          <h2 className="display-lg contact-reveal contact-headline cta-line">
 
             READY TO BUILD INTELLIGENT SYSTEMS?
 
@@ -178,7 +182,7 @@ export default function Contact() {
 
               href="mailto:hello@verbilab.ai"
 
-              className="mono-label !text-[var(--white)] hover:text-[var(--accent)]"
+              className="mono-label contact-email-link !text-[var(--white)]"
 
             >
 
@@ -198,9 +202,11 @@ export default function Contact() {
 
         <form
 
+          id="contact-form"
+
           onSubmit={handleSubmit}
 
-          className="contact-form contact-form--full glass-panel glow-border tech-frame contact-reveal"
+          className="contact-form contact-form--full contact-form--compact glass-panel glow-border tech-frame contact-reveal"
 
         >
 
@@ -226,13 +232,23 @@ export default function Contact() {
 
 
 
-          <Field label="Email Address" name="email" type="email" required />
+          <div className="contact-form-grid contact-form-grid--2">
 
-          <Field label="Phone Number (optional)" name="phone" type="tel" />
+            <Field label="Email Address" name="email" type="email" required />
+
+            <Field label="Phone Number (optional)" name="phone" type="tel" />
+
+          </div>
 
 
 
-          <SelectField label="Industry / Sector" name="industry" options={INDUSTRIES} required />
+          <div className="contact-form-grid contact-form-grid--2 contact-form-grid--selects">
+
+            <SelectField label="Industry / Sector" name="industry" options={INDUSTRIES} required />
+
+            <SelectField label="How did you hear about us?" name="source" options={HEAR_ABOUT} />
+
+          </div>
 
 
 
@@ -250,7 +266,7 @@ export default function Contact() {
 
               name="solve"
 
-              rows={4}
+              rows={2}
 
               className="field-input resize-y"
 
@@ -261,10 +277,6 @@ export default function Contact() {
             />
 
           </div>
-
-
-
-          <SelectField label="How did you hear about us?" name="source" options={HEAR_ABOUT} />
 
 
 
