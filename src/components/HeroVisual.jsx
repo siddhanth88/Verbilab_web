@@ -10,7 +10,7 @@ import { prefersReducedMotion } from '../utils/motion'
 
 
 
-const NEON = '#00FF85'
+import { ACCENT as NEON } from '../utils/brandColors'
 
 
 

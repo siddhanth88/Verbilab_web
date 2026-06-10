@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useInViewCanvas } from '../hooks/useInViewCanvas'
 import { prefersReducedMotion } from '../utils/motion'
+import { ACCENT_RGB } from '../utils/brandColors'
 
 export default function IntegrationDotField() {
   const { ref, inViewRef } = useInViewCanvas()
@@ -53,13 +54,13 @@ export default function IntegrationDotField() {
 
         ctx.beginPath()
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(0, 255, 133, ${pulse * 0.55})`
+        ctx.fillStyle = `rgba(${ACCENT_RGB}, ${pulse * 0.55})`
         ctx.fill()
 
         if (d.r > 1.2) {
           ctx.beginPath()
           ctx.arc(d.x, d.y, d.r * 3, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(0, 255, 133, ${pulse * 0.08})`
+          ctx.fillStyle = `rgba(${ACCENT_RGB}, ${pulse * 0.08})`
           ctx.fill()
         }
       })

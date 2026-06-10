@@ -60,12 +60,15 @@ export default function FeatureSceneOverlays({ activeId }) {
   const data = SCENES[activeId]
   const floats = FLOAT[activeId] || []
 
+  const showAuditMockup = activeId === 'audit'
+  const floatsToShow = showAuditMockup ? [] : floats
+
   return (
-    <div className="cyber-hud" ref={sceneRef}>
+    <div className={`cyber-hud cyber-hud--${activeId}`} ref={sceneRef}>
       <div className="cyber-hud-ring" aria-hidden />
       <div className="cyber-hud-ring cyber-hud-ring--2" aria-hidden />
 
-      {activeId === 'audit' && <LiveAuditDashboard />}
+      {showAuditMockup && <LiveAuditDashboard />}
 
       <div className={`cyber-terminal cyber-terminal--${activeId}`}>
         <div className="cyber-terminal-header">
@@ -90,7 +93,7 @@ export default function FeatureSceneOverlays({ activeId }) {
         </div>
       </div>
 
-      {floats.map((f) => (
+      {floatsToShow.map((f) => (
         <div
           key={f.label}
           className="cyber-float-tag"
@@ -111,9 +114,9 @@ export default function FeatureSceneOverlays({ activeId }) {
         />
         <defs>
           <linearGradient id="cyberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#00FF85" stopOpacity="0.1" />
-            <stop offset="50%" stopColor="#00FF85" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#00d4ff" stopOpacity="0.2" />
+            <stop offset="0%" stopColor="#5BC0DE" stopOpacity="0.15" />
+            <stop offset="50%" stopColor="#7DD8F5" stopOpacity="0.65" />
+            <stop offset="100%" stopColor="#C1E14F" stopOpacity="0.25" />
           </linearGradient>
         </defs>
       </svg>

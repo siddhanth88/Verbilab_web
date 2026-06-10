@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import BrandLogo from './BrandLogo'
+import { useAmbientSound } from '../hooks/useAmbientSound'
+import { playUiBlip } from '../utils/ambientSound'
 
 const LINKS = [
   { label: 'Home', href: '#home' },
@@ -15,7 +17,14 @@ const LINKS = [
 export default function Nav({ homeHref = '#home' }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-  const [sound, setSound] = useState(false)
+  const { enabled: sound, toggle: toggleSound, canUseSound } = useAmbientSound()
+
+  const linkHref = (href) => (homeHref === '/' ? `/${href}` : href)
+  const contactHref = homeHref === '/' ? '/#contact' : '#contact'
+
+  const onLinkHover = () => {
+    if (sound) playUiBlip()
+  }
 
   useEffect(() => {
     let ticking = false
@@ -52,19 +61,22 @@ export default function Nav({ homeHref = '#home' }) {
               <span className="nav-systems-dot" aria-hidden />
               SYSTEMS NOMINAL
             </p>
-            <button
-              type="button"
-              className="sound-toggle nav-sound"
-              onClick={() => setSound((s) => !s)}
-              aria-label={`Sound ${sound ? 'on' : 'off'}`}
-            >
-              <span className="sound-bars">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <span key={i} className={`bar bar-${i} ${sound ? 'active' : ''}`} />
-                ))}
-              </span>
-              <span>SOUND: {sound ? 'ON' : 'OFF'}</span>
-            </button>
+            {canUseSound && (
+              <button
+                type="button"
+                className={`sound-toggle nav-sound${sound ? ' sound-toggle--on' : ''}`}
+                onClick={toggleSound}
+                aria-pressed={sound}
+                aria-label={`Sound ${sound ? 'on' : 'off'}`}
+              >
+                <span className="sound-bars">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <span key={i} className={`bar bar-${i} ${sound ? 'active' : ''}`} />
+                  ))}
+                </span>
+                <span>SOUND: {sound ? 'ON' : 'OFF'}</span>
+              </button>
+            )}
           </div>
 
           <div className="nav-center hidden md:flex">
@@ -75,8 +87,9 @@ export default function Nav({ homeHref = '#home' }) {
               {LINKS.map((link) => (
                 <a
                   key={link.href}
-                  href={homeHref === '/' ? `/${link.href}` : link.href}
+                  href={linkHref(link.href)}
                   className="nav-link"
+                  onMouseEnter={onLinkHover}
                 >
                   {link.label}
                 </a>
@@ -88,10 +101,7 @@ export default function Nav({ homeHref = '#home' }) {
             <BrandLogo className="nav-logo-img nav-logo-img--mobile" />
           </a>
 
-          <a
-            href={homeHref === '/' ? '/#contact' : '#contact'}
-            className="btn-premium nav-cta hidden shrink-0 md:inline-flex"
-          >
+          <a href={contactHref} className="btn-premium nav-cta hidden shrink-0 md:inline-flex">
             GET A DEMO
           </a>
 
@@ -122,10 +132,25 @@ export default function Nav({ homeHref = '#home' }) {
             </div>
             <nav className="flex flex-col gap-6" aria-label="Mobile navigation">
               <BrandLogo className="nav-logo-img nav-logo-img--menu mb-2" />
+              {canUseSound && (
+                <button
+                  type="button"
+                  className={`sound-toggle sound-toggle--menu${sound ? ' sound-toggle--on' : ''}`}
+                  onClick={toggleSound}
+                  aria-pressed={sound}
+                >
+                  <span className="sound-bars">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <span key={i} className={`bar bar-${i} ${sound ? 'active' : ''}`} />
+                    ))}
+                  </span>
+                  <span>SOUND: {sound ? 'ON' : 'OFF'}</span>
+                </button>
+              )}
               {LINKS.map((link, i) => (
                 <motion.a
                   key={link.href}
-                  href={homeHref === '/' ? `/${link.href}` : link.href}
+                  href={linkHref(link.href)}
                   onClick={() => setOpen(false)}
                   className="display-lg !text-3xl"
                   initial={{ opacity: 0, x: 32 }}
@@ -135,11 +160,7 @@ export default function Nav({ homeHref = '#home' }) {
                   {link.label}
                 </motion.a>
               ))}
-              <a
-                href={homeHref === '/' ? '/#contact' : '#contact'}
-                onClick={() => setOpen(false)}
-                className="btn-premium mt-4 w-fit"
-              >
+              <a href={contactHref} onClick={() => setOpen(false)} className="btn-premium mt-4 w-fit">
                 GET A DEMO
               </a>
             </nav>

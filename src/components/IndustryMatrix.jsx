@@ -16,12 +16,12 @@ const INDUSTRIES = [
 ]
 
 function IndustryIcon({ type }) {
-  const common = { stroke: 'rgba(0,255,133,0.55)', strokeWidth: 1.2, fill: 'none' }
+  const common = { stroke: 'rgba(91,192,222,0.55)', strokeWidth: 1.2, fill: 'none' }
   if (type === 'BPO')
     return (
       <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden className="industry-icon-svg">
         <path {...common} d="M4 12h16M8 8v8M16 6v12" />
-        <circle cx="12" cy="12" r="2" fill="rgba(0,255,133,0.4)" />
+        <circle cx="12" cy="12" r="2" fill="rgba(91,192,222,0.4)" />
       </svg>
     )
   if (type === 'BFSI')

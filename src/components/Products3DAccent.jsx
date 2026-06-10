@@ -1,4 +1,5 @@
 import { Canvas, useFrame } from '@react-three/fiber'
+import { ACCENT } from '../utils/brandColors'
 import { Suspense, useRef } from 'react'
 
 function FloatingTorus() {
@@ -14,7 +15,7 @@ function FloatingTorus() {
   return (
     <mesh ref={mesh}>
       <torusKnotGeometry args={[0.8, 0.25, 128, 16]} />
-      <meshStandardMaterial color="#00FF85" wireframe opacity={0.15} transparent />
+      <meshStandardMaterial color={ACCENT} wireframe opacity={0.15} transparent />
     </mesh>
   )
 }
@@ -27,7 +28,7 @@ export default function Products3DAccent() {
     >
       <Canvas camera={{ position: [0, 0, 3] }} dpr={[1, 1.5]}>
         <ambientLight intensity={0.3} />
-        <pointLight position={[2, 2, 2]} color="#00FF85" intensity={1.5} />
+        <pointLight position={[2, 2, 2]} color={ACCENT} intensity={1.5} />
         <Suspense fallback={null}>
           <FloatingTorus />
         </Suspense>

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '../utils/motion'
+import { ACCENT, ACCENT_RGB, accentAlpha } from '../utils/brandColors'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -72,7 +73,7 @@ export default function AboutContactBridge() {
         const pulse = 0.25 + Math.sin(t * n.speed + n.phase) * 0.35
         ctx.beginPath()
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(0, 255, 133, ${pulse * 0.7})`
+        ctx.fillStyle = `rgba(${ACCENT_RGB}, ${pulse * 0.7})`
         ctx.fill()
 
         nodes.slice(i + 1).forEach((m) => {
@@ -81,7 +82,7 @@ export default function AboutContactBridge() {
             ctx.beginPath()
             ctx.moveTo(n.x, n.y)
             ctx.lineTo(m.x, m.y)
-            ctx.strokeStyle = `rgba(0, 255, 133, ${0.04 * (1 - dist / 90)})`
+            ctx.strokeStyle = `rgba(${ACCENT_RGB}, ${0.04 * (1 - dist / 90)})`
             ctx.lineWidth = 1
             ctx.stroke()
           }
@@ -96,9 +97,9 @@ export default function AboutContactBridge() {
         }
 
         const grad = ctx.createLinearGradient(p.x - p.len, p.y, p.x, p.y)
-        grad.addColorStop(0, 'rgba(0, 255, 133, 0)')
-        grad.addColorStop(0.6, `rgba(0, 255, 133, ${p.alpha * 0.5})`)
-        grad.addColorStop(1, `rgba(0, 255, 133, ${p.alpha})`)
+        grad.addColorStop(0, accentAlpha(0))
+        grad.addColorStop(0.6, `rgba(${ACCENT_RGB}, ${p.alpha * 0.5})`)
+        grad.addColorStop(1, `rgba(${ACCENT_RGB}, ${p.alpha})`)
 
         ctx.strokeStyle = grad
         ctx.lineWidth = 1.5
@@ -107,9 +108,9 @@ export default function AboutContactBridge() {
         ctx.lineTo(p.x, p.y)
         ctx.stroke()
 
-        ctx.fillStyle = `rgba(0, 255, 133, ${p.alpha})`
+        ctx.fillStyle = `rgba(${ACCENT_RGB}, ${p.alpha})`
         ctx.shadowBlur = 10
-        ctx.shadowColor = '#00FF85'
+        ctx.shadowColor = ACCENT
         ctx.beginPath()
         ctx.arc(p.x, p.y, 2, 0, Math.PI * 2)
         ctx.fill()
@@ -193,9 +194,9 @@ export default function AboutContactBridge() {
       <svg className="acb-svg" viewBox="0 0 880 160" preserveAspectRatio="none" aria-hidden>
         <defs>
           <linearGradient id="acbGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(0,255,133,0)" />
-            <stop offset="50%" stopColor="rgba(0,255,133,0.55)" />
-            <stop offset="100%" stopColor="rgba(0,255,133,0)" />
+            <stop offset="0%" stopColor="rgba(91,192,222,0)" />
+            <stop offset="50%" stopColor="rgba(91,192,222,0.55)" />
+            <stop offset="100%" stopColor="rgba(91,192,222,0)" />
           </linearGradient>
         </defs>
         {PATHS.map((d, i) => (
@@ -215,7 +216,7 @@ export default function AboutContactBridge() {
             d={d}
             className="acb-packet"
             fill="none"
-            stroke="#00FF85"
+            stroke={ACCENT}
             strokeWidth="2"
             strokeLinecap="round"
             strokeDasharray="8 112"

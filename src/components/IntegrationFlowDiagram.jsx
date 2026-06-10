@@ -152,7 +152,7 @@ export default function IntegrationFlowDiagram() {
 
       if (hex) {
         gsap.to(hex, {
-          stroke: 'rgba(0,255,133,1)',
+          stroke: 'rgba(91,192,222,1)',
           attr: { 'stroke-width': 2 },
           duration: 1.8,
           repeat: -1,
@@ -184,12 +184,12 @@ export default function IntegrationFlowDiagram() {
         >
           <defs>
             <linearGradient id="flowGradIn" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(0,255,133,0.2)" />
-              <stop offset="100%" stopColor="rgba(0,255,133,0.9)" />
+              <stop offset="0%" stopColor="rgba(91,192,222,0.2)" />
+              <stop offset="100%" stopColor="rgba(91,192,222,0.9)" />
             </linearGradient>
             <linearGradient id="flowGradOut" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(0,255,133,0.9)" />
-              <stop offset="100%" stopColor="rgba(0,255,133,0.2)" />
+              <stop offset="0%" stopColor="rgba(91,192,222,0.9)" />
+              <stop offset="100%" stopColor="rgba(91,192,222,0.2)" />
             </linearGradient>
           </defs>
 
@@ -220,8 +220,8 @@ export default function IntegrationFlowDiagram() {
           <polygon
             className="flow-hex"
             points={hexPoints(CENTER.x, CENTER.y, 60)}
-            fill="rgba(0,255,133,0.06)"
-            stroke="rgba(0,255,133,0.7)"
+            fill="rgba(91,192,222,0.06)"
+            stroke="rgba(91,192,222,0.7)"
             strokeWidth="1.5"
           />
           <text
@@ -239,7 +239,7 @@ export default function IntegrationFlowDiagram() {
             x={CENTER.x}
             y={CENTER.y + 15}
             textAnchor="middle"
-            fill="#00ff85"
+            fill="#5BC0DE"
             fontSize="11"
             fontFamily="Space Mono, monospace"
           >
@@ -250,8 +250,8 @@ export default function IntegrationFlowDiagram() {
             const y = nodeY(i, INDUSTRIES.length)
             return (
               <g key={`dot-l-${i}`}>
-                <circle cx={LEFT_X} cy={y} r="3.5" fill="#00ff85" />
-                <circle cx={LEFT_X} cy={y} r="9" fill="none" stroke="rgba(0,255,133,0.3)" strokeWidth="1" />
+                <circle cx={LEFT_X} cy={y} r="3.5" fill="#5BC0DE" />
+                <circle cx={LEFT_X} cy={y} r="9" fill="none" stroke="rgba(91,192,222,0.3)" strokeWidth="1" />
               </g>
             )
           })}
@@ -260,8 +260,8 @@ export default function IntegrationFlowDiagram() {
             const y = nodeY(i, PRODUCTS.length)
             return (
               <g key={`dot-r-${i}`}>
-                <circle cx={RIGHT_X} cy={y} r="3.5" fill="#00ff85" />
-                <circle cx={RIGHT_X} cy={y} r="9" fill="none" stroke="rgba(0,255,133,0.3)" strokeWidth="1" />
+                <circle cx={RIGHT_X} cy={y} r="3.5" fill="#5BC0DE" />
+                <circle cx={RIGHT_X} cy={y} r="9" fill="none" stroke="rgba(91,192,222,0.3)" strokeWidth="1" />
               </g>
             )
           })}

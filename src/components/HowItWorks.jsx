@@ -91,7 +91,7 @@ export default function HowItWorks() {
       <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
         {STEPS.map((step) => (
           <div key={step.num} className="process-step relative border-t border-[var(--border)] pt-8 md:border-t-0 md:pt-0">
-            <p className="step-number font-display text-[5rem] leading-none text-[rgba(0,255,133,0.15)]">
+            <p className="step-number font-display text-[5rem] leading-none text-[rgba(91,192,222,0.15)]">
               {step.num}
             </p>
             <h3 className="step-title mt-2 text-[1.2rem] font-semibold">{step.title}</h3>

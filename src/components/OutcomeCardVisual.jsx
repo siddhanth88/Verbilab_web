@@ -6,11 +6,11 @@ export function AuditScoreVisual() {
       <svg viewBox="0 0 280 130" className="h-full w-full">
         <defs>
           <linearGradient id="auditGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00FF85" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#00d4ff" stopOpacity="0.2" />
+            <stop offset="0%" stopColor="#5BC0DE" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#C1E14F" stopOpacity="0.25" />
           </linearGradient>
         </defs>
-        <circle cx="72" cy="65" r="42" fill="none" stroke="rgba(0,255,133,0.15)" strokeWidth="8" />
+        <circle cx="72" cy="65" r="42" fill="none" stroke="rgba(91,192,222,0.15)" strokeWidth="8" />
         <circle
           cx="72"
           cy="65"
@@ -24,7 +24,7 @@ export function AuditScoreVisual() {
           transform="rotate(-90 72 65)"
           className="outcome-audit-ring"
         />
-        <text x="72" y="70" textAnchor="middle" fill="#00FF85" fontSize="22" fontWeight="700" fontFamily="Inter,sans-serif">
+        <text x="72" y="70" textAnchor="middle" fill="#5BC0DE" fontSize="22" fontWeight="700" fontFamily="Inter,sans-serif">
           98
         </text>
         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => {
@@ -36,7 +36,7 @@ export function AuditScoreVisual() {
               y={110 - h}
               width="5"
               height={h}
-              fill="rgba(0,255,133,0.55)"
+              fill="rgba(91,192,222,0.55)"
               className="outcome-wave-bar"
               style={{ animationDelay: `${i * 0.028}s` }}
             />
@@ -45,14 +45,14 @@ export function AuditScoreVisual() {
         <text x="138" y="22" fill="rgba(255,255,255,0.35)" fontSize="8" fontFamily="Space Mono,monospace">
           LIVE CALL SCORING
         </text>
-        <line x1="132" y1="32" x2="268" y2="32" stroke="rgba(0,255,133,0.2)" />
+        <line x1="132" y1="32" x2="268" y2="32" stroke="rgba(91,192,222,0.2)" />
         <text x="138" y="48" fill="rgba(255,255,255,0.5)" fontSize="7" fontFamily="Space Mono,monospace">
           Agent script · OK
         </text>
         <text x="138" y="62" fill="rgba(255,255,255,0.5)" fontSize="7" fontFamily="Space Mono,monospace">
           Compliance · PASS
         </text>
-        <text x="138" y="76" fill="rgba(0,255,133,0.7)" fontSize="7" fontFamily="Space Mono,monospace">
+        <text x="138" y="76" fill="rgba(91,192,222,0.7)" fontSize="7" fontFamily="Space Mono,monospace">
           Risk flag · CLEARED
         </text>
       </svg>
@@ -65,7 +65,7 @@ export function CoverageVisual() {
   return (
     <div className="outcome-cyber-visual" aria-hidden>
       <svg viewBox="0 0 280 130" className="h-full w-full">
-        <rect x="20" y="25" width="240" height="80" fill="none" stroke="rgba(0,255,133,0.12)" strokeWidth="1" />
+        <rect x="20" y="25" width="240" height="80" fill="none" stroke="rgba(91,192,222,0.12)" strokeWidth="1" />
         {Array.from({ length: 8 }).flatMap((_, row) =>
           Array.from({ length: 12 }).map((_, col) => {
             const i = row * 12 + col
@@ -82,10 +82,10 @@ export function CoverageVisual() {
             )
           }),
         )}
-        <text x="140" y="118" textAnchor="middle" fill="#00FF85" fontSize="11" fontFamily="Space Mono,monospace" letterSpacing="3">
+        <text x="140" y="118" textAnchor="middle" fill="#5BC0DE" fontSize="11" fontFamily="Space Mono,monospace" letterSpacing="3">
           FULL COVERAGE MAP
         </text>
-        <circle cx="240" cy="40" r="4" fill="#00FF85" className="outcome-coverage-ping" />
+        <circle cx="240" cy="40" r="4" fill="#5BC0DE" className="outcome-coverage-ping" />
         <text x="20" y="18" fill="rgba(255,255,255,0.4)" fontSize="8" fontFamily="Space Mono,monospace">
           100% CALLS INDEXED
         </text>
@@ -123,18 +123,18 @@ export function IndustriesVisual() {
               y1={nodes[a][1]}
               x2={nodes[b][0]}
               y2={nodes[b][1]}
-              stroke="rgba(0,255,133,0.25)"
+              stroke="rgba(91,192,222,0.25)"
               strokeWidth="1"
             />
           ))}
           {nodes.slice(0, 5).map(([x, y], i) => (
             <g key={i}>
-              <circle cx={x} cy={y} r="10" fill="rgba(0,255,133,0.08)" stroke="rgba(0,255,133,0.5)" />
+              <circle cx={x} cy={y} r="10" fill="rgba(91,192,222,0.08)" stroke="rgba(91,192,222,0.5)" />
               <text
                 x={x}
                 y={y + 3}
                 textAnchor="middle"
-                fill="#00FF85"
+                fill="#5BC0DE"
                 fontSize="6"
                 fontFamily="Space Mono,monospace"
               >
@@ -147,8 +147,8 @@ export function IndustriesVisual() {
           cx="140"
           cy="65"
           r="18"
-          fill="rgba(0,255,133,0.1)"
-          stroke="#00FF85"
+          fill="rgba(91,192,222,0.1)"
+          stroke="#5BC0DE"
           strokeWidth="1"
           className="outcome-hub-pulse"
         />

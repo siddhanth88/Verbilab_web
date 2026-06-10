@@ -134,9 +134,9 @@ export default function ConnectionDiagram() {
               if (nodeEl) {
                 gsap.fromTo(
                   nodeEl,
-                  { attr: { stroke: 'rgba(0,255,133,0.2)' } },
+                  { attr: { stroke: 'rgba(91,192,222,0.2)' } },
                   {
-                    attr: { stroke: 'rgba(0,255,133,0.65)' },
+                    attr: { stroke: 'rgba(91,192,222,0.65)' },
                     duration: 0.3,
                     repeat: -1,
                     repeatDelay: 2,
@@ -161,7 +161,7 @@ export default function ConnectionDiagram() {
       if (hubHex) {
         gsap.fromTo(
           hubHex,
-          { attr: { stroke: '#00FF85' } },
+          { attr: { stroke: '#5BC0DE' } },
           {
             attr: { stroke: '#66ffb3' },
             duration: 1.4,
@@ -233,12 +233,12 @@ export default function ConnectionDiagram() {
               </feMerge>
             </filter>
             <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00FF85" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#00FF85" stopOpacity="0.75" />
+              <stop offset="0%" stopColor="#5BC0DE" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#5BC0DE" stopOpacity="0.75" />
             </linearGradient>
             <linearGradient id="lineGradR" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00FF85" stopOpacity="0.75" />
-              <stop offset="100%" stopColor="#00FF85" stopOpacity="0.15" />
+              <stop offset="0%" stopColor="#5BC0DE" stopOpacity="0.75" />
+              <stop offset="100%" stopColor="#5BC0DE" stopOpacity="0.15" />
             </linearGradient>
           </defs>
 
@@ -248,7 +248,7 @@ export default function ConnectionDiagram() {
             width={W / 2 - 20}
             height={H - 12}
             rx="4"
-            fill="rgba(0,255,133,0.02)"
+            fill="rgba(91,192,222,0.02)"
             stroke="rgba(255,255,255,0.06)"
             strokeWidth="1"
           />
@@ -258,7 +258,7 @@ export default function ConnectionDiagram() {
             width={W / 2 - 20}
             height={H - 12}
             rx="4"
-            fill="rgba(0,255,133,0.02)"
+            fill="rgba(91,192,222,0.02)"
             stroke="rgba(255,255,255,0.06)"
             strokeWidth="1"
           />
@@ -274,7 +274,7 @@ export default function ConnectionDiagram() {
                 height="24"
                 rx="4"
                 fill="rgba(0,0,0,0.35)"
-                stroke="rgba(0,255,133,0.2)"
+                stroke="rgba(91,192,222,0.2)"
                 strokeWidth="1"
               />
               <text
@@ -297,14 +297,14 @@ export default function ConnectionDiagram() {
               cy={centerY}
               r="32"
               fill="none"
-              stroke="rgba(0,255,133,0.1)"
+              stroke="rgba(91,192,222,0.1)"
               strokeWidth="8"
             />
             <polygon
               className="hub-hex"
               points={hexPoints(centerX, centerY, 28)}
-              fill="rgba(0,255,133,0.08)"
-              stroke="#00FF85"
+              fill="rgba(91,192,222,0.08)"
+              stroke="#5BC0DE"
               strokeWidth="1.2"
               filter="url(#diagramGlow)"
             />
@@ -324,7 +324,7 @@ export default function ConnectionDiagram() {
               x={centerX}
               y={centerY + 9}
               textAnchor="middle"
-              fill="#00FF85"
+              fill="#5BC0DE"
               fontSize="10"
               fontFamily="Inter, sans-serif"
               fontWeight="700"
@@ -347,7 +347,7 @@ export default function ConnectionDiagram() {
                   height="24"
                   rx="4"
                   fill="rgba(0,0,0,0.35)"
-                  stroke="rgba(0,255,133,0.24)"
+                  stroke="rgba(91,192,222,0.24)"
                   strokeWidth="1"
                 />
                 <rect
@@ -356,13 +356,13 @@ export default function ConnectionDiagram() {
                   width={badgeW}
                   height="11"
                   rx="2"
-                  fill={node.badge === 'LIVE' ? 'rgba(0,255,133,0.2)' : 'rgba(255,255,255,0.06)'}
+                  fill={node.badge === 'LIVE' ? 'rgba(91,192,222,0.2)' : 'rgba(255,255,255,0.06)'}
                 />
                 <text
                   x={W - 134 + badgeW / 2}
                   y={node.y - 4}
                   textAnchor="middle"
-                  fill={node.badge === 'LIVE' ? '#00FF85' : '#7a7a8c'}
+                  fill={node.badge === 'LIVE' ? '#5BC0DE' : '#7a7a8c'}
                   fontSize="7"
                   fontFamily="Space Mono, monospace"
                 >
@@ -399,7 +399,7 @@ export default function ConnectionDiagram() {
               <path
                 className="connect-line-flow"
                 d={line.d}
-                stroke="#00FF85"
+                stroke="#5BC0DE"
                 strokeWidth="2"
                 fill="none"
                 opacity="0"
@@ -415,14 +415,14 @@ export default function ConnectionDiagram() {
                   className="flow-trail"
                   data-line={line.index}
                   r="5"
-                  fill="rgba(0,255,133,0.2)"
+                  fill="rgba(91,192,222,0.2)"
                   opacity="0"
                 />
                 <circle
                   className="flow-packet"
                   data-line={line.index}
                   r="3.5"
-                  fill="#00FF85"
+                  fill="#5BC0DE"
                   opacity="0"
                   filter="url(#packetGlow)"
                 />

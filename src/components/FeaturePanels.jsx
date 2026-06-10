@@ -86,16 +86,16 @@ function ChatVisual() {
 
       <div className="graph-wrap">
         <svg viewBox="0 0 240 100" className="h-full w-full" aria-hidden>
-          <line x1="30" y1="50" x2="90" y2="25" stroke="rgba(0,255,133,0.3)" />
-          <line x1="90" y1="25" x2="150" y2="55" stroke="rgba(0,255,133,0.3)" />
-          <line x1="150" y1="55" x2="210" y2="40" stroke="rgba(0,255,133,0.3)" />
+          <line x1="30" y1="50" x2="90" y2="25" stroke="rgba(91,192,222,0.3)" />
+          <line x1="90" y1="25" x2="150" y2="55" stroke="rgba(91,192,222,0.3)" />
+          <line x1="150" y1="55" x2="210" y2="40" stroke="rgba(91,192,222,0.3)" />
           {[
             [30, 50],
             [90, 25],
             [150, 55],
             [210, 40],
           ].map(([x, y], i) => (
-            <circle key={i} cx={x} cy={y} r="5" fill="rgba(0,255,133,0.9)" className="graph-node" />
+            <circle key={i} cx={x} cy={y} r="5" fill="rgba(91,192,222,0.9)" className="graph-node" />
           ))}
         </svg>
         <div className="graph-labels">

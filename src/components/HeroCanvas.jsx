@@ -4,12 +4,12 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import * as THREE from 'three'
 import { prefersReducedMotion } from '../utils/motion'
+import { ACCENT as NEON } from '../utils/brandColors'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const COUNT = 600
 const CONNECT_DIST = 1.45
-const NEON = '#00FF85'
 
 function ParticleNetwork({ motionRef, scrollRef }) {
   const groupRef = useRef()
@@ -31,11 +31,15 @@ function ParticleNetwork({ motionRef, scrollRef }) {
       positions[i * 3 + 1] = y
       positions[i * 3 + 2] = z
 
-      const isGreen = Math.random() < 0.6
-      if (isGreen) {
-        colors[i * 3] = 0
-        colors[i * 3 + 1] = 1
-        colors[i * 3 + 2] = 0.52
+      const isBlue = Math.random() < 0.72
+      if (isBlue) {
+        colors[i * 3] = 0.36
+        colors[i * 3 + 1] = 0.75
+        colors[i * 3 + 2] = 0.87
+      } else if (Math.random() < 0.5) {
+        colors[i * 3] = 0.76
+        colors[i * 3 + 1] = 0.88
+        colors[i * 3 + 2] = 0.31
       } else {
         colors[i * 3] = 1
         colors[i * 3 + 1] = 1
@@ -129,7 +133,7 @@ function ParticleNetwork({ motionRef, scrollRef }) {
         <lineBasicMaterial
           color={NEON}
           transparent
-          opacity={0.14}
+          opacity={0.2}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
@@ -145,7 +149,7 @@ function ParticleNetwork({ motionRef, scrollRef }) {
         <lineBasicMaterial
           color={NEON}
           transparent
-          opacity={0.48}
+          opacity={0.55}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />

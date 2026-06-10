@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useInViewCanvas } from '../hooks/useInViewCanvas'
 import { prefersReducedMotion } from '../utils/motion'
+import { ACCENT, ACCENT_RGB, accentAlpha } from '../utils/brandColors'
 
 export default function CircuitBackground() {
   const { ref, inViewRef } = useInViewCanvas()
@@ -12,7 +13,6 @@ export default function CircuitBackground() {
     const ctx = canvas.getContext('2d')
     let animFrame
     let intervalId
-    const ACCENT = '#00FF85'
 
     const setup = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
@@ -79,7 +79,7 @@ export default function CircuitBackground() {
       const { w, h, nodes, connections } = state
       ctx.clearRect(0, 0, w, h)
 
-      ctx.strokeStyle = 'rgba(0, 255, 133, 0.04)'
+      ctx.strokeStyle = `rgba(${ACCENT_RGB}, 0.04)`
       ctx.lineWidth = 1
       connections.forEach(({ a, b }) => {
         ctx.beginPath()
@@ -105,8 +105,8 @@ export default function CircuitBackground() {
         const sy = conn.a.y + (conn.b.y - conn.a.y) * trailStart
 
         const grad = ctx.createLinearGradient(sx, sy, px, py)
-        grad.addColorStop(0, 'rgba(0,255,133,0)')
-        grad.addColorStop(1, 'rgba(0,255,133,0.8)')
+        grad.addColorStop(0, accentAlpha(0))
+        grad.addColorStop(1, accentAlpha(0.8))
         ctx.strokeStyle = grad
         ctx.lineWidth = 1.5
         ctx.beginPath()
@@ -123,7 +123,7 @@ export default function CircuitBackground() {
       nodes.forEach((node) => {
         node.pulse += node.pulseSpeed
         const alpha = 0.15 + Math.abs(Math.sin(node.pulse)) * 0.5
-        ctx.fillStyle = `rgba(0, 255, 133, ${alpha})`
+        ctx.fillStyle = `rgba(${ACCENT_RGB}, ${alpha})`
         ctx.beginPath()
         ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2)
         ctx.fill()

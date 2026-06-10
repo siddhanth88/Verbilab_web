@@ -1,4 +1,5 @@
 import { Canvas, useFrame } from '@react-three/fiber'
+import { ACCENT } from '../utils/brandColors'
 import { Suspense, useRef } from 'react'
 
 function FloatingIco() {
@@ -13,7 +14,7 @@ function FloatingIco() {
   return (
     <mesh ref={mesh}>
       <icosahedronGeometry args={[1, 0]} />
-      <meshStandardMaterial color="#00FF85" wireframe opacity={0.2} transparent />
+      <meshStandardMaterial color={ACCENT} wireframe opacity={0.2} transparent />
     </mesh>
   )
 }
@@ -26,7 +27,7 @@ export default function Industries3DAccent() {
     >
       <Canvas camera={{ position: [0, 0, 3] }} dpr={[1, 1.5]}>
         <ambientLight intensity={0.35} />
-        <pointLight position={[2, 2, 2]} color="#00FF85" intensity={1.2} />
+        <pointLight position={[2, 2, 2]} color={ACCENT} intensity={1.2} />
         <Suspense fallback={null}>
           <FloatingIco />
         </Suspense>

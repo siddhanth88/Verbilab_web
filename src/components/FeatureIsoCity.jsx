@@ -3,8 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Edges, OrthographicCamera } from '@react-three/drei'
 import * as THREE from 'three'
 
-const NEON = '#00FF85'
-const CYAN = '#00d4ff'
+import { ACCENT as NEON, ACCENT_RGB, ACCENT_SECONDARY as CYAN } from '../utils/brandColors'
 const DIM = '#3a4a55'
 
 const BUILDINGS = [
@@ -120,8 +119,8 @@ function CityBlock({ activeId }) {
     <group ref={group} rotation={[0, Math.PI / 4.2, 0]}>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
         <planeGeometry args={[9, 7, 1, 1]} />
-        <meshBasicMaterial color="#00FF85" transparent opacity={0.04} />
-        <Edges color="rgba(0,255,133,0.35)" />
+        <meshBasicMaterial color={NEON} transparent opacity={0.04} />
+        <Edges color={`rgba(${ACCENT_RGB}, 0.35)`} />
       </mesh>
       <AICore activeId={activeId} />
       {BUILDINGS.map((b, i) => (

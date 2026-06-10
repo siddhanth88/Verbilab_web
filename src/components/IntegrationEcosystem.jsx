@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import IntegrationDotField from './IntegrationDotField'
+import { ACCENT } from '../utils/brandColors'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -78,18 +79,18 @@ function animatePacket(path, dot, opts = {}) {
 function VerbilabHub() {
   return (
     <g className="integration-hub">
-      <circle className="hub-glow-ring hub-hex-glow" cx={CX} cy={CY} r="44" fill="none" stroke="rgba(0,255,133,0.07)" strokeWidth="12" />
+      <circle className="hub-glow-ring hub-hex-glow" cx={CX} cy={CY} r="44" fill="none" stroke="rgba(91,192,222,0.07)" strokeWidth="12" />
       <polygon
         className="hub-hex-shape"
         points={hexPoints(CX, CY, 32)}
-        fill="rgba(0,255,133,0.06)"
-        stroke="#00FF85"
+        fill="rgba(91,192,222,0.06)"
+        stroke={ACCENT}
         strokeWidth="1.3"
       />
       <text x={CX} y={CY - 4} textAnchor="middle" fill="#fff" fontSize="8.5" fontWeight="600" letterSpacing="2" fontFamily="Inter,sans-serif">
         VERBILAB
       </text>
-      <text x={CX} y={CY + 9} textAnchor="middle" fill="#00FF85" fontSize="10" fontWeight="700" letterSpacing="2" fontFamily="Inter,sans-serif">
+      <text x={CX} y={CY + 9} textAnchor="middle" fill={ACCENT} fontSize="10" fontWeight="700" letterSpacing="2" fontFamily="Inter,sans-serif">
         AI
       </text>
     </g>
@@ -119,12 +120,12 @@ function FlowPanel({ svgRef }) {
           </feMerge>
         </filter>
         <linearGradient id="flowGradL" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#00FF85" stopOpacity="0.18" />
-          <stop offset="100%" stopColor="#00FF85" stopOpacity="0.7" />
+          <stop offset="0%" stopColor={ACCENT} stopOpacity="0.18" />
+          <stop offset="100%" stopColor={ACCENT} stopOpacity="0.7" />
         </linearGradient>
         <linearGradient id="flowGradR" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#00FF85" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#00FF85" stopOpacity="0.18" />
+          <stop offset="0%" stopColor={ACCENT} stopOpacity="0.7" />
+          <stop offset="100%" stopColor={ACCENT} stopOpacity="0.18" />
         </linearGradient>
       </defs>
 
@@ -159,7 +160,7 @@ function FlowPanel({ svgRef }) {
             fill="none"
             filter="url(#flowGlow)"
           />
-          <circle className="flow-dot" data-index={i} r="2.5" fill="#00FF85" opacity="0" />
+          <circle className="flow-dot" data-index={i} r="2.5" fill={ACCENT} opacity="0" />
         </g>
       ))}
     </svg>
@@ -178,14 +179,14 @@ function OrbitPanel({ svgRef }) {
       preserveAspectRatio="xMidYMid meet"
       aria-hidden
     >
-      <polygon className="orbit-hex-ring" points={orbitHex} fill="none" stroke="rgba(0,255,133,0.1)" strokeWidth="1" />
+      <polygon className="orbit-hex-ring" points={orbitHex} fill="none" stroke="rgba(91,192,222,0.1)" strokeWidth="1" />
       <circle
         className="orbit-ring-glow"
         cx={CX}
         cy={CY}
         r={ORBIT_R + 6}
         fill="none"
-        stroke="rgba(0,255,133,0.05)"
+        stroke="rgba(91,192,222,0.05)"
         strokeWidth="1"
         strokeDasharray="3 9"
       />
@@ -199,14 +200,14 @@ function OrbitPanel({ svgRef }) {
           y1={CY}
           x2={app.x}
           y2={app.y}
-          stroke="rgba(0,255,133,0.16)"
+          stroke="rgba(91,192,222,0.16)"
           strokeWidth="1"
         />
       ))}
 
       <VerbilabHub />
 
-      <circle className="orbit-packet" r="2.5" fill="#00FF85" opacity="0" />
+      <circle className="orbit-packet" r="2.5" fill={ACCENT} opacity="0" />
 
       {ORBIT_APPS.map((app) => (
         <g
@@ -331,7 +332,7 @@ export default function IntegrationEcosystem() {
 
         orbitLines.forEach((line, i) => {
           gsap.to(line, {
-            stroke: 'rgba(0,255,133,0.32)',
+            stroke: 'rgba(91,192,222,0.32)',
             duration: 1.8,
             repeat: -1,
             yoyo: true,

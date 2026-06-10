@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 import { useInViewCanvas } from '../hooks/useInViewCanvas'
 
-const NEON = '0, 255, 133'
-const CYAN = '0, 212, 255'
+import { ACCENT_RGB as NEON, ACCENT_SECONDARY_RGB as CYAN } from '../utils/brandColors'
 
 export default function FeatureCyberCanvas() {
   const { ref, inViewRef } = useInViewCanvas()

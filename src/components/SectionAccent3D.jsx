@@ -1,8 +1,9 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Suspense, useRef } from 'react'
 import * as THREE from 'three'
+import { ACCENT, ACCENT_RGB } from '../utils/brandColors'
 
-function FloatingShapes({ color = '#00FF85' }) {
+function FloatingShapes({ color = ACCENT }) {
   const group = useRef()
 
   useFrame((state) => {
@@ -53,8 +54,8 @@ function FloatingShapes({ color = '#00FF85' }) {
 
 export default function SectionAccent3D({
   className = '',
-  color = '#00FF85',
-  bg = 'radial-gradient(ellipse 65% 55% at 60% 50%, rgba(0,255,133,0.15), transparent 72%)',
+  color = ACCENT,
+  bg = `radial-gradient(ellipse 65% 55% at 60% 50%, rgba(${ACCENT_RGB}, 0.15), transparent 72%)`,
 }) {
   return (
     <div className={`section-accent-3d ${className}`} aria-hidden>

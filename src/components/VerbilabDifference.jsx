@@ -58,7 +58,7 @@ export default function VerbilabDifference() {
           className="diff-line-path"
           d="M0 200 Q300 80 600 200 T1200 200"
           fill="none"
-          stroke="rgba(0,255,133,0.15)"
+          stroke="rgba(91,192,222,0.15)"
           strokeWidth="1"
           strokeDasharray="800"
         />
@@ -66,7 +66,7 @@ export default function VerbilabDifference() {
           className="diff-line-path"
           d="M0 220 Q400 320 800 180 T1200 240"
           fill="none"
-          stroke="rgba(0,255,133,0.08)"
+          stroke="rgba(91,192,222,0.08)"
           strokeWidth="1"
           strokeDasharray="800"
         />

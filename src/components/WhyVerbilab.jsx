@@ -45,7 +45,7 @@ export default function WhyVerbilab() {
 
   return (
     <section ref={sectionRef} className="section-pad relative overflow-hidden">
-      <SectionAccent3D className="why-accent" color="#00FF85" />
+      <SectionAccent3D className="why-accent" />
       <p className="section-label why-head">WHY US</p>
       <h2 className="section-title why-head max-w-[12ch]">The Verbilab Difference.</h2>
 
