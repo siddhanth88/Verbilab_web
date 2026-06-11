@@ -10,20 +10,13 @@ import { prefersReducedMotion } from '../utils/motion'
 
 
 
-import { ACCENT as NEON } from '../utils/brandColors'
-
-
+import { ACCENT as NEON, ACCENT_SECONDARY as LIME, ACCENT_NEON } from '../utils/brandColors'
 
 const CORE_GLOW = {
-
   wire: NEON,
-
-  emissive: NEON,
-
-  ring: NEON,
-
-  inner: NEON,
-
+  emissive: ACCENT_NEON,
+  ring: LIME,
+  inner: LIME,
 }
 
 
@@ -82,7 +75,7 @@ function WireCore() {
 
           transparent
 
-          opacity={0.38}
+          opacity={0.52}
 
           blending={THREE.AdditiveBlending}
 
@@ -96,7 +89,13 @@ function WireCore() {
 
         <torusGeometry args={[0.95, 0.013, 16, 64]} />
 
-        <meshBasicMaterial color={CORE_GLOW.ring} transparent opacity={0.65} />
+        <meshBasicMaterial
+          color={CORE_GLOW.ring}
+          transparent
+          opacity={0.88}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
 
       </mesh>
 
@@ -116,7 +115,7 @@ function WireCore() {
 
           emissive={CORE_GLOW.emissive}
 
-          emissiveIntensity={2.6}
+          emissiveIntensity={3.4}
 
           metalness={0.15}
 
@@ -306,13 +305,13 @@ export default function HeroVisual({ parallaxRef }) {
 
           <Canvas camera={{ position: [0, 0, 3.2], fov: 42 }} dpr={[1, 1.5]} gl={{ alpha: true }}>
 
-            <ambientLight intensity={0.35} color={NEON} />
+            <ambientLight intensity={0.4} color={NEON} />
 
-            <pointLight position={[2, 2, 2]} intensity={3.2} color={NEON} />
+            <pointLight position={[2, 2, 2]} intensity={3.8} color={NEON} />
 
-            <pointLight position={[-1.5, -1, 1.5]} intensity={2} color={NEON} />
+            <pointLight position={[-1.5, -1, 1.5]} intensity={2.4} color={LIME} />
 
-            <pointLight position={[0, 0, 1]} intensity={1.4} color={NEON} />
+            <pointLight position={[0, 0, 1]} intensity={1.8} color={ACCENT_NEON} />
 
             <WireCore />
 

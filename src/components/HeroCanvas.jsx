@@ -4,12 +4,38 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import * as THREE from 'three'
 import { prefersReducedMotion } from '../utils/motion'
-import { ACCENT as NEON } from '../utils/brandColors'
+import { ACCENT as NEON, ACCENT_SECONDARY as LIME } from '../utils/brandColors'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const COUNT = 600
 const CONNECT_DIST = 1.45
+const BLUE = new THREE.Color(NEON)
+const LIME_C = new THREE.Color(LIME)
+
+function GlowLines({ positions, colors, scale = 1, opacity = 0.5 }) {
+  const s = Array.isArray(scale) ? scale : [scale, scale, scale]
+  return (
+    <lineSegments scale={s}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          args={[positions, 3]}
+          count={positions.length / 3}
+        />
+        <bufferAttribute attach="attributes-color" args={[colors, 3]} count={colors.length / 3} />
+      </bufferGeometry>
+      <lineBasicMaterial
+        vertexColors
+        transparent
+        opacity={opacity}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+        toneMapped={false}
+      />
+    </lineSegments>
+  )
+}
 
 function ParticleNetwork({ motionRef, scrollRef }) {
   const groupRef = useRef()
@@ -18,7 +44,7 @@ function ParticleNetwork({ motionRef, scrollRef }) {
   const boost = useRef(0)
   const baseZ = useRef(5)
 
-  const { positions, colors, linePositions } = useMemo(() => {
+  const { positions, colors, linePositions, lineColors } = useMemo(() => {
     const positions = new Float32Array(COUNT * 3)
     const colors = new Float32Array(COUNT * 3)
     const pts = []
@@ -31,25 +57,17 @@ function ParticleNetwork({ motionRef, scrollRef }) {
       positions[i * 3 + 1] = y
       positions[i * 3 + 2] = z
 
-      const isBlue = Math.random() < 0.72
-      if (isBlue) {
-        colors[i * 3] = 0.36
-        colors[i * 3 + 1] = 0.75
-        colors[i * 3 + 2] = 0.87
-      } else if (Math.random() < 0.5) {
-        colors[i * 3] = 0.76
-        colors[i * 3 + 1] = 0.88
-        colors[i * 3 + 2] = 0.31
-      } else {
-        colors[i * 3] = 1
-        colors[i * 3 + 1] = 1
-        colors[i * 3 + 2] = 1
-      }
+      const isLime = Math.random() < 0.38
+      const c = isLime ? LIME_C : BLUE
+      colors[i * 3] = c.r
+      colors[i * 3 + 1] = c.g
+      colors[i * 3 + 2] = c.b
 
       pts.push(new THREE.Vector3(x, y, z))
     }
 
     const segments = []
+    const segColors = []
     for (let i = 0; i < pts.length; i++) {
       for (let j = i + 1; j < pts.length; j++) {
         if (pts[i].distanceTo(pts[j]) < CONNECT_DIST) {
@@ -61,6 +79,8 @@ function ParticleNetwork({ motionRef, scrollRef }) {
             pts[j].y,
             pts[j].z,
           )
+          const c = Math.random() < 0.34 ? LIME_C : BLUE
+          segColors.push(c.r, c.g, c.b, c.r, c.g, c.b)
         }
       }
     }
@@ -69,6 +89,7 @@ function ParticleNetwork({ motionRef, scrollRef }) {
       positions,
       colors,
       linePositions: new Float32Array(segments),
+      lineColors: new Float32Array(segColors),
     }
   }, [])
 
@@ -113,47 +134,19 @@ function ParticleNetwork({ motionRef, scrollRef }) {
           <bufferAttribute attach="attributes-color" args={[colors, 3]} count={COUNT} />
         </bufferGeometry>
         <pointsMaterial
-          size={0.078}
+          size={0.072}
           sizeAttenuation
           transparent
-          opacity={0.78}
+          opacity={0.82}
           vertexColors
           blending={THREE.AdditiveBlending}
           depthWrite={false}
+          toneMapped={false}
         />
       </points>
-      <lineSegments scale={[1.012, 1.012, 1.012]}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            args={[linePositions, 3]}
-            count={linePositions.length / 3}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial
-          color={NEON}
-          transparent
-          opacity={0.2}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </lineSegments>
-      <lineSegments>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            args={[linePositions, 3]}
-            count={linePositions.length / 3}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial
-          color={NEON}
-          transparent
-          opacity={0.55}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </lineSegments>
+      <GlowLines positions={linePositions} colors={lineColors} scale={1.06} opacity={0.14} />
+      <GlowLines positions={linePositions} colors={lineColors} scale={1.028} opacity={0.26} />
+      <GlowLines positions={linePositions} colors={lineColors} scale={1} opacity={0.52} />
     </group>
   )
 }
@@ -183,6 +176,7 @@ export default function HeroCanvas({ motionRef, scrollRef }) {
   return (
     <div ref={wrapRef} className="hero-canvas-wrap hero-canvas-wrap--fullscreen">
       <div className="hero-canvas-glow absolute inset-0" aria-hidden />
+      <div className="hero-canvas-bloom absolute inset-0" aria-hidden />
       <div className="hero-canvas-grain absolute inset-0" aria-hidden />
       <div className="hero-scanlines" aria-hidden />
       <Canvas
