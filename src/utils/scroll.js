@@ -63,20 +63,28 @@ export function initSmoothScroll() {
   if (prefersReducedMotion()) return null
 
   const lenis = new Lenis({
-    lerp: 0.085,
+    lerp: 0.1,
     smoothWheel: true,
-    wheelMultiplier: 0.85,
-    touchMultiplier: 1.1,
+    wheelMultiplier: 0.8,
+    touchMultiplier: 1,
+    syncTouch: true,
   })
 
-  lenis.on('scroll', ScrollTrigger.update)
+  let scrollRaf = 0
+  lenis.on('scroll', () => {
+    if (scrollRaf) return
+    scrollRaf = requestAnimationFrame(() => {
+      scrollRaf = 0
+      ScrollTrigger.update()
+    })
+  })
 
   const onTick = (time) => {
     lenis.raf(time * 1000)
   }
 
   gsap.ticker.add(onTick)
-  gsap.ticker.lagSmoothing(0)
+  gsap.ticker.lagSmoothing(500, 33)
 
   lenisInstance = lenis
   document.documentElement.classList.add('lenis', 'lenis-smooth')
@@ -98,6 +106,7 @@ export function initSmoothScroll() {
   document.addEventListener('click', onAnchorClick)
 
   return () => {
+    if (scrollRaf) cancelAnimationFrame(scrollRaf)
     document.removeEventListener('click', onAnchorClick)
     gsap.ticker.remove(onTick)
     lenis.destroy()

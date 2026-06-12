@@ -1,14 +1,11 @@
 import { useEffect, useRef, Suspense, useState } from 'react'
+import { prefersReducedMotion } from '../utils/motion'
 
 import { Canvas, useFrame } from '@react-three/fiber'
 
 import * as THREE from 'three'
 
 import gsap from 'gsap'
-
-import { prefersReducedMotion } from '../utils/motion'
-
-
 
 import { ACCENT as NEON, ACCENT_SECONDARY as LIME, ACCENT_NEON } from '../utils/brandColors'
 
@@ -19,76 +16,40 @@ const CORE_GLOW = {
   inner: LIME,
 }
 
-
-
 function WireCore() {
-
   const mesh = useRef()
-
   const ring = useRef()
-
   const inner = useRef()
 
-
-
   useFrame((s) => {
-
     const t = s.clock.elapsedTime
-
     if (mesh.current) {
-
       mesh.current.rotation.x = t * 0.18
-
       mesh.current.rotation.y = t * 0.28
-
     }
-
     if (ring.current) {
-
       ring.current.rotation.z = t * 0.4
-
       ring.current.rotation.x = Math.sin(t * 0.5) * 0.2
-
     }
-
     if (inner.current) {
-
       inner.current.scale.setScalar(1 + Math.sin(t * 1.2) * 0.04)
-
     }
-
   })
 
-
-
   return (
-
     <group>
-
       <mesh ref={inner}>
-
         <sphereGeometry args={[0.32, 24, 24]} />
-
         <meshBasicMaterial
-
           color={CORE_GLOW.inner}
-
           transparent
-
           opacity={0.52}
-
           blending={THREE.AdditiveBlending}
-
           depthWrite={false}
-
         />
-
       </mesh>
-
       <mesh ref={ring}>
-
         <torusGeometry args={[0.95, 0.013, 16, 64]} />
-
         <meshBasicMaterial
           color={CORE_GLOW.ring}
           transparent
@@ -96,42 +57,23 @@ function WireCore() {
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
-
       </mesh>
-
       <mesh ref={mesh}>
-
         <icosahedronGeometry args={[0.62, 1]} />
-
         <meshStandardMaterial
-
           color={CORE_GLOW.wire}
-
           wireframe
-
           transparent
-
           opacity={1}
-
           emissive={CORE_GLOW.emissive}
-
           emissiveIntensity={3.4}
-
           metalness={0.15}
-
           roughness={0.25}
-
         />
-
       </mesh>
-
     </group>
-
   )
-
 }
-
-
 
 const FLOAT_CARDS = [
 
@@ -230,18 +172,26 @@ function HudCard({ card }) {
 
 
 export default function HeroVisual({ parallaxRef }) {
-
   const wrapRef = useRef(null)
-
-
+  const [frameloop, setFrameloop] = useState('always')
 
   useEffect(() => {
-
     const el = wrapRef.current
+    if (!el || prefersReducedMotion()) return
 
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setFrameloop(entry.isIntersecting ? 'always' : 'never')
+      },
+      { rootMargin: '80px', threshold: 0.05 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = wrapRef.current
     if (!el) return
-
-
 
     const onMove = (e) => {
 
@@ -303,7 +253,12 @@ export default function HeroVisual({ parallaxRef }) {
 
         <Suspense fallback={null}>
 
-          <Canvas camera={{ position: [0, 0, 3.2], fov: 42 }} dpr={[1, 1.5]} gl={{ alpha: true }}>
+          <Canvas
+            camera={{ position: [0, 0, 3.2], fov: 42 }}
+            dpr={[1, 1.25]}
+            frameloop={frameloop}
+            gl={{ alpha: true, powerPreference: 'high-performance' }}
+          >
 
             <ambientLight intensity={0.4} color={NEON} />
 

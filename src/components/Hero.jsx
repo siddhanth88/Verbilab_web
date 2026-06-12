@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import HeroCanvas from './HeroCanvas'
 import HeroVisual from './HeroVisual'
+import TextScramble from './TextScramble'
 import { prefersReducedMotion } from '../utils/motion'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -70,7 +71,7 @@ export default function Hero() {
         trigger: section,
         start: 'top top',
         end: 'bottom top',
-        scrub: 0.6,
+        scrub: 1.2,
       },
     })
 
@@ -88,12 +89,16 @@ export default function Hero() {
 
       <div className="hero-grid">
         <div className="hero-copy">
-          <p className="section-kicker hero-reveal">APPLIED AI FOR REAL OPERATIONS</p>
+          <p className="section-kicker hero-reveal">
+            <TextScramble text="APPLIED AI FOR REAL OPERATIONS" delay={0.1} duration={900} />
+          </p>
           <h1 className="display-xl hero-title-glow">
             <span className="sr-only">Verbilab AI — </span>
-            {LINES.map((line) => (
+            {LINES.map((line, i) => (
               <span key={line} className="hero-line">
-                <span>{line}</span>
+                <span>
+                  <TextScramble text={line} delay={0.35 + i * 0.22} duration={1200} />
+                </span>
               </span>
             ))}
           </h1>
