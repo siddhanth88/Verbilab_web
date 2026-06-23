@@ -13,8 +13,10 @@ const FOOTER_COLUMNS = [
     title: 'Company',
     links: [
       { label: 'About', href: '#about' },
-      { label: 'Careers', href: 'mailto:hello@verbilab.ai?subject=Careers' },
-      { label: 'hello@verbilab.ai', href: 'mailto:hello@verbilab.ai' },
+      { label: 'FAQ', href: '/faq' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Careers', href: 'mailto:sales@verbilab.com?subject=Careers' },
+      { label: 'sales@verbilab.com', href: 'mailto:sales@verbilab.com' },
     ],
   },
   {
@@ -49,17 +51,20 @@ export default function Footer() {
               <span>{col.title}</span>
             </div>
             <ul className="footer-col-links">
-              {col.links.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="footer-link"
-                    {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
+              {col.links.map((link) => {
+                const isEmail = link.href.startsWith('mailto:') && link.label.includes('@')
+                return (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className={`footer-link${isEmail ? ' footer-link--email' : ''}`}
+                      {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    >
+                      {isEmail ? 'sales@verbilab.com' : link.label}
+                    </a>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         ))}

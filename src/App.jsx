@@ -3,22 +3,30 @@ import { AnimatePresence } from 'framer-motion'
 import Loader, { getLoaderDuration } from './components/Loader'
 import HomePage from './pages/HomePage'
 import LegalPage from './pages/LegalPage'
+import FaqPage from './pages/FaqPage'
+import BlogPage from './pages/BlogPage'
+import BlogPostPage from './pages/BlogPostPage'
 import { prefersReducedMotion } from './utils/motion'
-import { initClientRouter, normalizePath, usePathname } from './utils/router'
+import { getBlogSlug, initClientRouter, isSpaRoute, normalizePath, usePathname } from './utils/router'
 
 export default function App() {
   const [loading, setLoading] = useState(true)
   const pathname = usePathname()
+  const blogSlug = getBlogSlug(pathname)
 
   const isPrivacy = pathname === '/privacy'
   const isTerms = pathname === '/terms'
+  const isFaq = pathname === '/faq'
+  const isBlog = pathname === '/blog'
+  const isBlogPost = Boolean(blogSlug)
   const isLegal = isPrivacy || isTerms
+  const isContentPage = isLegal || isFaq || isBlog || isBlogPost
 
   useEffect(() => initClientRouter(), [])
 
   useEffect(() => {
     const path = normalizePath()
-    if (path === '/privacy' || path === '/terms') {
+    if (isSpaRoute(path)) {
       setLoading(false)
       return
     }
@@ -133,8 +141,11 @@ export default function App() {
       <div id="cursor-dot" className="cursor-dot-el" aria-hidden />
       {isPrivacy && <LegalPage type="privacy" />}
       {isTerms && <LegalPage type="terms" />}
-      {!isLegal && <HomePage loading={loading} />}
-      <AnimatePresence>{loading && !isLegal && <Loader key="loader" />}</AnimatePresence>
+      {isFaq && <FaqPage />}
+      {isBlog && <BlogPage />}
+      {isBlogPost && <BlogPostPage slug={blogSlug} />}
+      {!isContentPage && <HomePage loading={loading} />}
+      <AnimatePresence>{loading && !isContentPage && <Loader key="loader" />}</AnimatePresence>
     </>
   )
 }

@@ -1,10 +1,23 @@
 import { useEffect, useState } from 'react'
 
-const SPA_ROUTES = new Set(['/privacy', '/terms'])
+const SPA_EXACT_ROUTES = new Set(['/privacy', '/terms', '/faq', '/blog'])
 
 export function normalizePath(path = window.location.pathname) {
   const clean = path.replace(/\/+$/, '') || '/'
   return clean
+}
+
+export function isSpaRoute(path = window.location.pathname) {
+  const normalized = normalizePath(path)
+  if (SPA_EXACT_ROUTES.has(normalized)) return true
+  if (normalized.startsWith('/blog/') && normalized.length > 6) return true
+  return false
+}
+
+export function getBlogSlug(path = window.location.pathname) {
+  const normalized = normalizePath(path)
+  if (!normalized.startsWith('/blog/') || normalized === '/blog') return null
+  return normalized.slice(6)
 }
 
 export function navigate(path) {
@@ -18,7 +31,7 @@ export function navigate(path) {
 export function initClientRouter() {
   if (typeof window !== 'undefined') {
     const boot = normalizePath()
-    if (boot === '/privacy' || boot === '/terms') {
+    if (isSpaRoute(boot)) {
       window.history.replaceState({}, '', boot)
     }
   }
@@ -44,7 +57,7 @@ export function initClientRouter() {
     if (url.origin !== window.location.origin) return
 
     const path = normalizePath(url.pathname)
-    if (!SPA_ROUTES.has(path)) return
+    if (!isSpaRoute(path)) return
 
     e.preventDefault()
     navigate(path)
