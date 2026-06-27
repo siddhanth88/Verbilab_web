@@ -34,7 +34,7 @@ const INDUSTRIES = [
 
 const HEAR_ABOUT = ['Search', 'Referral', 'LinkedIn', 'Conference / Event', 'Other']
 
-const FORM_ENDPOINT = 'https://formsubmit.co/ajax/hello@verbilab.ai'
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/sales@verbilab.com'
 
 
 
@@ -180,13 +180,12 @@ export default function Contact() {
 
             <a
 
-              href="mailto:hello@verbilab.ai"
+              href="mailto:sales@verbilab.com"
 
               className="mono-label contact-email-link !text-[var(--white)]"
 
             >
-
-              hello@verbilab.ai
+              sales@verbilab.com
 
             </a>
 
@@ -292,7 +291,7 @@ export default function Contact() {
 
             {status === 'success' && 'Message sent. We will respond within 24 hours.'}
 
-            {status === 'error' && 'Something went wrong. Email us at hello@verbilab.ai'}
+            {status === 'error' && 'Something went wrong. Email us at sales@verbilab.com'}
 
           </p>
 

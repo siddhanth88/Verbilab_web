@@ -101,8 +101,8 @@ export default function LegalPage({ type }) {
             </ul>
             <p className="legal-card-foot legal-page-reveal">
               Questions?{' '}
-              <a href="mailto:hello@verbilab.ai" className="legal-link">
-                hello@verbilab.ai
+              <a href="mailto:sales@verbilab.com" className="legal-link">
+              sales@verbilab.com
               </a>
             </p>
           </article>

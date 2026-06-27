@@ -14,8 +14,8 @@ export default function LegalSections() {
             </ul>
             <p className="legal-card-foot">
               Questions?{' '}
-              <a href="mailto:hello@verbilab.ai" className="legal-link">
-                hello@verbilab.ai
+              <a href="mailto:sales@verbilab.com" className="legal-link">
+              sales@verbilab.com
               </a>
             </p>
           </article>
@@ -31,8 +31,8 @@ export default function LegalSections() {
             </ul>
             <p className="legal-card-foot">
               Questions?{' '}
-              <a href="mailto:hello@verbilab.ai" className="legal-link">
-                hello@verbilab.ai
+              <a href="mailto:sales@verbilab.com" className="legal-link">
+              sales@verbilab.com
               </a>
             </p>
           </article>

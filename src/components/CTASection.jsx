@@ -59,7 +59,7 @@ export default function CTASection() {
         </div>
 
         <p className="cta-email body-text">
-          Or write to us at <a href="mailto:hello@verbilab.ai">hello@verbilab.ai</a>
+          Or write to us at <a href="mailto:sales@verbilab.com">sales@verbilab.com</a>
         </p>
       </div>
     </section>
