@@ -6,6 +6,7 @@ import LegalPage from './pages/LegalPage'
 import FaqPage from './pages/FaqPage'
 import BlogPage from './pages/BlogPage'
 import BlogPostPage from './pages/BlogPostPage'
+import LumeaOsPrivacyPage from './pages/LumeaOsPrivacyPage'
 import { prefersReducedMotion } from './utils/motion'
 import { getBlogSlug, initClientRouter, isSpaRoute, normalizePath, usePathname } from './utils/router'
 
@@ -19,8 +20,9 @@ export default function App() {
   const isFaq = pathname === '/faq'
   const isBlog = pathname === '/blog'
   const isBlogPost = Boolean(blogSlug)
+  const isLumeaPrivacy = pathname === '/lumea-os/privacy-policy'
   const isLegal = isPrivacy || isTerms
-  const isContentPage = isLegal || isFaq || isBlog || isBlogPost
+  const isContentPage = isLegal || isFaq || isBlog || isBlogPost || isLumeaPrivacy
 
   useEffect(() => initClientRouter(), [])
 
@@ -144,6 +146,7 @@ export default function App() {
       {isFaq && <FaqPage />}
       {isBlog && <BlogPage />}
       {isBlogPost && <BlogPostPage slug={blogSlug} />}
+      {isLumeaPrivacy && <LumeaOsPrivacyPage />}
       {!isContentPage && <HomePage loading={loading} />}
       <AnimatePresence>{loading && !isContentPage && <Loader key="loader" />}</AnimatePresence>
     </>

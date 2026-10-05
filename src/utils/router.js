@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const SPA_EXACT_ROUTES = new Set(['/privacy', '/terms', '/faq', '/blog'])
+const SPA_EXACT_ROUTES = new Set(['/privacy', '/terms', '/faq', '/blog', '/lumea-os/privacy-policy'])
 
 export function normalizePath(path = window.location.pathname) {
   const clean = path.replace(/\/+$/, '') || '/'

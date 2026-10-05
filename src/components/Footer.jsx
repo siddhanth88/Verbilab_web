@@ -85,6 +85,10 @@ export default function Footer() {
           <a href="/terms" className="footer-link footer-link--small">
             Terms
           </a>
+          <span className="footer-legal-divider" aria-hidden />
+          <a href="/lumea-os/privacy-policy" className="footer-link footer-link--small">
+            Lumea OS Privacy Policy
+          </a>
         </div>
       </div>
     </footer>
